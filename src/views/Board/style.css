@@ -1,0 +1,91 @@
+.board {
+  overflow: scroll;
+  width: 100vw;
+  height: 100vh;
+}
+.row {
+  display: flex;
+}
+.cell {
+  min-width: 90px;
+  min-height: 90px;
+  margin: 5px;
+}
+.card {
+  min-width: 90px;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(128, 128, 128, 0.377);
+  border-radius: 15px;
+  color: aliceblue;
+  cursor: pointer;
+  transition: all 400ms ease;
+}
+
+.rotate {
+  animation: rotation 1 0.5s linear;
+}
+
+.return {
+  animation: return 1 0.5s linear;
+}
+
+.spin {
+  animation: App-logo-spin infinite 5s linear;
+}
+
+.reduce {
+  animation: reducing 1 0.5s linear;
+}
+
+.wrong {
+  animation: shake 1 0.5s linear;
+}
+
+@keyframes shake {
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-15deg);
+  }
+  30% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes reducing {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+@keyframes return {
+  from {
+    transform: rotateY(0turn);
+  }
+  to {
+    transform: rotateY(0.5turn);
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotateY(0turn);
+  }
+  to {
+    transform: rotateY(0.5turn);
+  }
+}
+
+.card:hover {
+  background-color: #222222;
+}
