@@ -6,7 +6,7 @@ import "tippy.js/dist/tippy.css"; // optional
 import { Button } from "@mui/material";
 
 // @mui icons
-import InfoIcon from "@mui/icons-material/Info";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 //context
 import { useLanguage } from "../../context/Language";
@@ -34,7 +34,7 @@ const About = (props) => {
         variant="contained"
         onClick={() => window.location.reload()}
       >
-        <InfoIcon />
+        <SettingsIcon />
       </Button>
     </Tippy>
   );
