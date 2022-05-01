@@ -75,7 +75,7 @@ const Board = () => {
         <>
           {" "}
           {rows().map((item, i) => {
-            return (
+            return ( 
               <Box key={`row${i}`} className="row">
                 {columns().map((jtem, j) => {
                   return (
