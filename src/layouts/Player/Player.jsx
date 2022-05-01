@@ -23,6 +23,12 @@ const Player = (props) => {
         width: "70px",
         justifyContent: "right",
         borderRadius: "10px",
+        transition: "all 400ms ease",
+        opacity: 0.2,
+        "&:hover": {
+          opacity: 1,
+        },
+        cursor: "pointer",
       }}
     >
       <Typography

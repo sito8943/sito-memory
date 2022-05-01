@@ -7,6 +7,7 @@ import "./style.css";
 
 // layouts
 import Player from "../../layouts/Player/Player";
+import Restart from "../../layouts/Restart/Restart";
 
 // context
 import { useLanguage } from "../../context/Language";
@@ -95,6 +96,7 @@ const Board = () => {
   return (
     <Box>
       <Player points={points} />
+      <Restart />
       {field.length && (
         <>
           {" "}
