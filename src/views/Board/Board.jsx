@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 // styles
 import "./style.css";
 
+// layouts
+import Player from "../../layouts/Player/Player";
+
 // context
 import { useLanguage } from "../../context/Language";
 import { useAudioController } from "../../context/AudioController";
@@ -65,12 +68,10 @@ const Board = () => {
           setField(newField);
           setTimeout(() => {
             playSound("good");
+            setPoints(points + 2);
           }, 700);
         }, 100);
-
-        setPoints(points + 2);
       } else {
-        setPoints(points - 1);
         setTimeout(() => {
           const newField = field;
           newField[active1.y][active1.x].active = "wrong";
@@ -78,6 +79,7 @@ const Board = () => {
           setField(newField);
           setTimeout(() => {
             playSound("error");
+            setPoints(points - 1);
           }, 700);
         }, 100);
       }
@@ -90,6 +92,7 @@ const Board = () => {
 
   return (
     <Box>
+      <Player points={points} />
       {field.length && (
         <>
           {" "}
