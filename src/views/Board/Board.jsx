@@ -1,9 +1,15 @@
-import { Button } from "@mui/material";
-import { Box } from "@mui/system";
+import { Button, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
+
+// tippy
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
 
 // styles
 import "./style.css";
+
+// @mui components
+import { Box } from "@mui/material";
 
 // layouts
 import Player from "../../layouts/Player/Player";
@@ -47,7 +53,8 @@ const Board = () => {
     const logicMatrix = [];
     for (let i = 0; i < 7; i += 1) {
       const row = [];
-      for (let j = 0; j < 7; j += 1) row.push({ value: j, active: "normal" });
+      for (let j = 0; j < 7; j += 1)
+        row.push({ value: j, desc: "description", active: "normal" });
       logicMatrix.push(row);
     }
     setField(logicMatrix);
@@ -118,20 +125,20 @@ const Board = () => {
         {field.length && (
           <>
             {" "}
-            {rows().map((item, i) => {
+            {field.map((item, i) => {
               return (
                 <Box key={`row${i}`} className="row">
-                  {columns().map((jtem, j) => {
+                  {field[i].map((jtem, j) => {
                     return (
                       <Box key={`cell${i},${j}`} className="cell">
-                        <div className={`${field[i][j].active}`}>
+                        <div className={`${jtem.active}`}>
                           <Button
                             id={`cell${i},${j}`}
                             onClick={flip}
                             className={`card ${
                               (active1.x === j && active1.y === i) ||
                               (active2.x === j && active2.y === i) ||
-                              field[i][j].active === "earned"
+                              jtem.active === "earned"
                                 ? "rotate"
                                 : "return"
                             }`}
@@ -143,9 +150,19 @@ const Board = () => {
                           >
                             {(active1.x === j && active1.y === i) ||
                             (active2.x === j && active2.y === i) ||
-                            field[i][j].active === "earned"
-                              ? jtem
-                              : ""}
+                            jtem.active === "earned" ? (
+                              <Box>
+                                {jtem.active === "earned" ? (
+                                  <Tippy content={jtem.desc}>
+                                    <Typography>{jtem.value}</Typography>
+                                  </Tippy>
+                                ) : (
+                                  <Typography>{jtem.value}</Typography>
+                                )}
+                              </Box>
+                            ) : (
+                              ""
+                            )}
                           </Button>
                         </div>
                       </Box>
