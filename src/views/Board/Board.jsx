@@ -15,6 +15,7 @@ import { useLanguage } from "../../context/Language";
 import { useAudioController } from "../../context/AudioController";
 import { useAudioConfig } from "../../context/AudioConfig";
 import { useScore } from "../../context/Score";
+import BuyCard from "../../layouts/BuyCard/BuyCard";
 
 const Board = () => {
   const { audioConfigState } = useAudioConfig();
@@ -23,13 +24,13 @@ const Board = () => {
 
   const rows = () => {
     const final = [];
-    for (let i = 0; i < window.innerHeight / 100; i += 1) final.push(i);
+    for (let i = 0; i < 7; i += 1) final.push(i);
     return final;
   };
 
   const columns = () => {
     const final = [];
-    for (let i = 0; i < window.innerWidth / 100; i += 1) final.push(i);
+    for (let i = 0; i < 7; i += 1) final.push(i);
     return final;
   };
 
@@ -44,10 +45,9 @@ const Board = () => {
 
   useEffect(() => {
     const logicMatrix = [];
-    for (let i = 0; i < window.innerHeight / 30; i += 1) {
+    for (let i = 0; i < 7; i += 1) {
       const row = [];
-      for (let j = 0; j < window.innerWidth / 30; j += 1)
-        row.push({ value: j, active: "normal" });
+      for (let j = 0; j < 7; j += 1) row.push({ value: j, active: "normal" });
       logicMatrix.push(row);
     }
     setField(logicMatrix);
@@ -56,7 +56,7 @@ const Board = () => {
   const flip = (e) => {
     const { id } = e.target;
     const parsed = id.substring(4).split(",");
-    if (active1.x !== Number(parsed[0]) && active1.y !== Number(parsed[1])) {
+    if (active1.x !== Number(parsed[0]) || active1.y !== Number(parsed[1])) {
       playSound("pop-up");
       if (active1.x === -1)
         setActive1({ y: Number(parsed[0]), x: Number(parsed[1]) });
@@ -99,51 +99,63 @@ const Board = () => {
   useEffect(() => {}, [scoreState.score]);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {" "}
       <Player points={points} />
       <Restart />
       <Score visible={scoreState.score} />
-      {field.length && (
-        <>
-          {" "}
-          {rows().map((item, i) => {
-            return (
-              <Box key={`row${i}`} className="row">
-                {columns().map((jtem, j) => {
-                  return (
-                    <Box key={`cell${i},${j}`} className="cell">
-                      <div className={`${field[i][j].active}`}>
-                        <Button
-                          id={`cell${i},${j}`}
-                          onClick={flip}
-                          className={`card ${
-                            (active1.x === j && active1.y === i) ||
+      <BuyCard />
+      <Box>
+        {field.length && (
+          <>
+            {" "}
+            {rows().map((item, i) => {
+              return (
+                <Box key={`row${i}`} className="row">
+                  {columns().map((jtem, j) => {
+                    return (
+                      <Box key={`cell${i},${j}`} className="cell">
+                        <div className={`${field[i][j].active}`}>
+                          <Button
+                            id={`cell${i},${j}`}
+                            onClick={flip}
+                            className={`card ${
+                              (active1.x === j && active1.y === i) ||
+                              (active2.x === j && active2.y === i)
+                                ? "rotate"
+                                : "return"
+                            }`}
+                            sx={{
+                              transition: "all 400ms ease",
+                              opacity:
+                                `${field[i][j].active}` === "reduce" ? 0 : 1,
+                            }}
+                            variant="contained"
+                            fullWidth
+                          >
+                            {(active1.x === j && active1.y === i) ||
                             (active2.x === j && active2.y === i)
-                              ? "rotate"
-                              : "return"
-                          }`}
-                          sx={{
-                            transition: "all 400ms ease",
-                            opacity:
-                              `${field[i][j].active}` === "reduce" ? 0 : 1,
-                          }}
-                          variant="contained"
-                          fullWidth
-                        >
-                          {(active1.x === j && active1.y === i) ||
-                          (active2.x === j && active2.y === i)
-                            ? jtem
-                            : ""}
-                        </Button>
-                      </div>
-                    </Box>
-                  );
-                })}
-              </Box>
-            );
-          })}
-        </>
-      )}
+                              ? jtem
+                              : ""}
+                          </Button>
+                        </div>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              );
+            })}
+          </>
+        )}
+      </Box>
     </Box>
   );
 };

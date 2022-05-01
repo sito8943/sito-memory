@@ -31,7 +31,7 @@ Loading.defaultProps = {
 };
 
 Loading.propTypes = {
-  sx: PropTypes.objectOf(PropTypes.number),
+  sx: PropTypes.objectOf(PropTypes.any),
 };
 
 export default Loading;
