@@ -10,7 +10,6 @@ const ScoreContext = React.createContext();
 const scoreReducer = (scoreState, action) => {
   switch (action.type) {
     case "toggle":
-      console.log(scoreState.score);
       return {
         score: !scoreState.score,
       };
