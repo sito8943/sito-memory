@@ -9,7 +9,10 @@ import "tippy.js/dist/tippy.css"; // optional
 import "./style.css";
 
 // @mui components
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
+
+// own components
+import Loading from "../../components/Loading/Loading";
 
 // layouts
 import Player from "../../layouts/Player/Player";
@@ -17,53 +20,88 @@ import Restart from "../../layouts/Restart/Restart";
 import Score from "../../layouts/Score/Score";
 import BuyCard from "../../layouts/BuyCard/BuyCard";
 import About from "../../layouts/About/About";
+import WinDialog from "../../layouts/WinDialog/WinDialog";
+import Difficulty from "../../layouts/Difficulty/Difficulty";
 
 // context
 import { useAudioController } from "../../context/AudioController";
 import { useAudioConfig } from "../../context/AudioConfig";
+import { useLanguage } from "../../context/Language";
 import { useScore } from "../../context/Score";
 
+// services
+import { FetchFromServer } from "../../services/get";
+
+// test
+import test from "../../test";
+
 const Board = () => {
+  const { languageState } = useLanguage();
   const { audioConfigState } = useAudioConfig();
   const { setAudioControllerState } = useAudioController();
   const { scoreState } = useScore();
-
-  const rows = () => {
-    const final = [];
-    for (let i = 0; i < 7; i += 1) final.push(i);
-    return final;
-  };
-
-  const columns = () => {
-    const final = [];
-    for (let i = 0; i < 7; i += 1) final.push(i);
-    return final;
-  };
+  const theme = useTheme();
 
   const playSound = (sound) => {
     if (audioConfigState.sfx) setAudioControllerState({ type: sound });
   };
 
+  const [count, setCount] = useState(4);
+  const [finished, setFinished] = useState(false);
+  const [error, setError] = useState(-1);
   const [field, setField] = useState([]);
   const [points, setPoints] = useState(0);
   const [active1, setActive1] = useState({ y: -1, x: -1 });
   const [active2, setActive2] = useState({ y: -1, x: -1 });
 
-  useEffect(() => {
-    const logicMatrix = [];
-    for (let i = 0; i < 7; i += 1) {
-      const row = [];
-      for (let j = 0; j < 7; j += 1)
-        row.push({ value: j, desc: "description", active: "normal" });
-      logicMatrix.push(row);
+  const init = async () => {
+    const data = await FetchFromServer("data", { idApp: "memory" });
+    if (!data.error) setError(-1);
+    else {
+      const localData = test;
+      const logicMatrix = [];
+      const rowMatrix = [];
+      const randomPos = [];
+      const pow = count * count;
+      for (let i = 0; i < pow; i += 1) {
+        rowMatrix.push({ value: -1, desc: "description", active: "normal" });
+        randomPos.push(i);
+      }
+
+      localData.forEach((item, i) => {
+        let randomX1 = randomPos.splice(
+          Math.floor(Math.random() * (randomPos.length - 1)),
+          1
+        )[0];
+        let randomX2 = randomPos.splice(
+          Math.floor(Math.random() * (randomPos.length - 1)),
+          1
+        )[0];
+        rowMatrix[randomX1].value = item;
+        rowMatrix[randomX2].value = item;
+      });
+
+      let w = 0;
+      for (let i = 0; i < count; i += 1) {
+        const row = [];
+        for (let j = 0; j < count; j += 1) {
+          row.push(rowMatrix[w]);
+          w += 1;
+        }
+        logicMatrix.push(row);
+      }
+      setField(logicMatrix);
     }
-    setField(logicMatrix);
-  }, []);
+  };
+
+  useEffect(() => {
+    init();
+  }, [count]);
 
   const flip = (e) => {
     const { id } = e.target;
     const parsed = id.substring(4).split(",");
-    if (active1.x !== Number(parsed[0]) || active1.y !== Number(parsed[1])) {
+    if (active1.y !== Number(parsed[0]) || active1.x !== Number(parsed[1])) {
       playSound("pop-up");
       if (active1.x === -1)
         setActive1({ y: Number(parsed[0]), x: Number(parsed[1]) });
@@ -78,6 +116,7 @@ const Board = () => {
             newField[active1.y][active1.x].active = "earned";
             newField[Number(parsed[0])][Number(parsed[1])].active = "earned";
             setField(newField);
+            isFinished();
             setTimeout(() => {
               playSound("good");
               setPoints(points + 2);
@@ -103,6 +142,13 @@ const Board = () => {
     }
   };
 
+  const isFinished = () => {
+    for (let i = 0; i < field.length; i += 1)
+      for (let j = 0; j < field[i].length; j += 1)
+        if (field[i][j].active !== "earned") return;
+    setFinished(true);
+  };
+
   useEffect(() => {}, [scoreState.score]);
 
   return (
@@ -115,14 +161,49 @@ const Board = () => {
         justifyContent: "center",
       }}
     >
-      {" "}
+      <Loading
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          opacity: field.length || error !== -1 ? 0 : 1,
+          zIndex: field.length || error !== -1 ? -1 : 99,
+          position: "fixed",
+        }}
+      />{" "}
+      <Difficulty sx={{}} />
+      <WinDialog
+        sx={{
+          opacity: finished ? 1 : 0,
+          zIndex: finished ? 99 : -1,
+        }}
+        finished={finished}
+      />
       <Player points={points} />
       <Restart />
       <Score visible={scoreState.score} />
       <BuyCard />
       <About />
       <Box>
-        {field.length && (
+        {error !== -1 && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              textAlign="center"
+              sx={{ color: theme.palette.error.light, margin: "10px" }}
+            >
+              {languageState.texts.Errors[error]}
+            </Typography>
+            <Button variant="contained" onClick={() => init()}>
+              {languageState.texts.Buttons.Retry}
+            </Button>
+          </Box>
+        )}
+        {field.length ? (
           <>
             {" "}
             {field.map((item, i) => {
@@ -143,6 +224,7 @@ const Board = () => {
                                 : "return"
                             }`}
                             sx={{
+                              padding: 0,
                               transition: "all 400ms ease",
                             }}
                             variant="contained"
@@ -154,10 +236,18 @@ const Board = () => {
                               <Box>
                                 {jtem.active === "earned" ? (
                                   <Tippy content={jtem.desc}>
-                                    <Typography>{jtem.value}</Typography>
+                                    <img
+                                      src={jtem.value}
+                                      alt="card"
+                                      className="image-card"
+                                    />
                                   </Tippy>
                                 ) : (
-                                  <Typography>{jtem.value}</Typography>
+                                  <img
+                                    src={jtem.value}
+                                    alt="card"
+                                    className="image-card"
+                                  />
                                 )}
                               </Box>
                             ) : (
@@ -172,6 +262,8 @@ const Board = () => {
               );
             })}
           </>
+        ) : (
+          <></>
         )}
       </Box>
     </Box>

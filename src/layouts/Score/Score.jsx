@@ -42,7 +42,6 @@ const Score = (props) => {
 
   useEffect(() => {
     const user = localStorage.getItem("memory-user");
-    console.log(user);
     if (user !== null) {
       init();
       setThisUser(user);

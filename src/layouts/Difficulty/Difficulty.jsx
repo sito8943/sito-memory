@@ -1,0 +1,126 @@
+import { useState } from "react";
+
+// @mui components
+import {
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Paper,
+  IconButton,
+  Box,
+  useTheme,
+} from "@mui/material";
+
+// prop-types
+import PropTypes from "prop-types";
+
+// @mui icons
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+
+// context
+import { useLanguage } from "../../context/Language";
+import { useGame } from "../../context/Game";
+import { useAudioController } from "../../context/AudioController";
+import { useAudioConfig } from "../../context/AudioConfig";
+import useOnclickOutside from "react-cool-onclickoutside";
+
+const Difficulty = (props) => {
+  const { languageState } = useLanguage();
+  const { audioConfigState } = useAudioConfig();
+  const { setAudioControllerState } = useAudioController();
+  const { gameState, setGameState } = useGame();
+  const theme = useTheme();
+
+  const playSound = (sound) => {
+    if (audioConfigState.sfx) setAudioControllerState({ type: sound });
+  };
+
+  const { sx } = props;
+
+  const ref = useOnclickOutside(() => {
+    setOpenMenu(false);
+  });
+
+  const [openMenu, setOpenMenu] = useState(false);
+
+  const handleChange = (e) => {
+    setGameState({ type: "difficulty", to: e.target.value });
+  };
+
+  return (
+    <Paper
+      sx={{
+        top: 0,
+        position: "fixed",
+        background: "#222",
+        padding: "10px",
+        transition: "all 400ms ease",
+        zIndex: 99,
+        transform: openMenu ? "translateY(0px)" : "translateY(-75px)",
+        opacity: openMenu ? 1 : 0.2,
+        "&:hover": {
+          opacity: 1,
+        },
+        paddingBottom: 0,
+        ...sx,
+      }}
+      ref={ref}
+    >
+      <FormControl>
+        <FormLabel sx={{ color: theme.palette.primary.contrastText }}>
+          {languageState.texts.Labels.Difficulty}
+        </FormLabel>
+        <RadioGroup
+          value={gameState.difficulty}
+          onChange={handleChange}
+          row
+          aria-labelledby="difficulty"
+        >
+          <FormControlLabel
+            value="easy"
+            sx={{ color: theme.palette.primary.contrastText }}
+            control={<Radio sx={{ marginBottom: "3px" }} />}
+            label={languageState.texts.Difficulty.Easy}
+          />
+          <FormControlLabel
+            value="medium"
+            sx={{ color: theme.palette.primary.contrastText }}
+            control={<Radio sx={{ marginBottom: "3px" }} />}
+            label={languageState.texts.Difficulty.Medium}
+          />
+          <FormControlLabel
+            value="hard"
+            sx={{ color: theme.palette.primary.contrastText }}
+            control={<Radio sx={{ marginBottom: "3px" }} />}
+            label={languageState.texts.Difficulty.Hard}
+          />
+        </RadioGroup>
+      </FormControl>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <IconButton
+          onClick={() => {
+            playSound("pop-up");
+            setOpenMenu(!openMenu);
+          }}
+          color="primary"
+          aria-label="delete"
+        >
+          {openMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
+      </Box>
+    </Paper>
+  );
+};
+
+Difficulty.defaultProps = {
+  sx: {},
+};
+
+Difficulty.propTypes = {
+  sx: PropTypes.objectOf(PropTypes.any),
+};
+
+export default Difficulty;

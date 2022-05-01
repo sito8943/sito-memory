@@ -9,6 +9,7 @@ import { LanguageProvider } from "./context/Language";
 import { AudioConfigProvider } from "./context/AudioConfig";
 import { AudioControllerProvider } from "./context/AudioController";
 import { ScoreProvider } from "./context/Score";
+import { GameProvider } from "./context/Game";
 
 const container = document.getElementById("root");
 
@@ -21,7 +22,9 @@ root.render(
       <AudioConfigProvider>
         <AudioControllerProvider>
           <ScoreProvider>
-            <App />
+            <GameProvider>
+              <App />
+            </GameProvider>
           </ScoreProvider>
         </AudioControllerProvider>
       </AudioConfigProvider>

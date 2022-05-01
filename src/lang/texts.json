@@ -6,11 +6,21 @@
       "BuyCard": "Comprar tarjeta",
       "About": "Acerca de"
     },
+    "Difficulty": {
+      "Easy": "Fácil",
+      "Medium": "Moderado",
+      "Hard": "Difícil"
+    },
     "Buttons": {
       "Retry": "Reintentar",
-      "Login": "Inicia sesión en Nagüe"
+      "Login": "Inicia sesión en Nagüe",
+      "Reload": "Recargar"
     },
     "Labels": {
+      "Difficulty": "Dificultad",
+      "Congratulations": "Felicitaciones",
+      "CongratulationsDescription": "Has terminado el nivel. Presiona en el botón para guardar tu puntuación",
+      "CongratulationsSignUp": "Has terminado el nivel, inicia sesión para guardar tu puntuación",
       "SignUp": "Registrarse",
       "Score": "Marcador"
     },

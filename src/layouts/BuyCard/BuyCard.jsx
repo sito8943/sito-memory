@@ -26,12 +26,12 @@ const BuyCard = () => {
           transition: "all 400ms ease",
           opacity: 0.2,
           minWidth: "30px",
+          background: "#222",
           "&:hover": {
             opacity: 1,
           },
         }}
         variant="contained"
-        color="secondary"
         onClick={() => window.location.reload()}
       >
         <AutoFixHighIcon />

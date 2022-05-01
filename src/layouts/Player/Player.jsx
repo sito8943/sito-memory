@@ -31,19 +31,18 @@ const Player = (props) => {
           top: "10px",
           right: "10px",
           display: "flex",
-          background: theme.palette.secondary.main,
           padding: "10px",
           width: "90px",
           justifyContent: "right",
           transition: "all 400ms ease",
           opacity: 0.2,
+          background: "#222",
           "&:hover": {
             opacity: 1,
           },
         }}
         variant="contained"
         onClick={() => setScoreState({ type: "toggle" })}
-        color="secondary"
       >
         <Typography
           sx={{
