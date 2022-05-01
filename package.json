@@ -38,6 +38,7 @@
     "@tippyjs/react": "^4.2.6",
     "js-base64": "^3.7.2",
     "react": "^18.1.0",
+    "react-cool-onclickoutside": "^1.7.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.0"

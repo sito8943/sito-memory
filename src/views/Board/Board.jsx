@@ -8,15 +8,18 @@ import "./style.css";
 // layouts
 import Player from "../../layouts/Player/Player";
 import Restart from "../../layouts/Restart/Restart";
+import Score from "../../layouts/Score/Score";
 
 // context
 import { useLanguage } from "../../context/Language";
 import { useAudioController } from "../../context/AudioController";
 import { useAudioConfig } from "../../context/AudioConfig";
+import { useScore } from "../../context/Score";
 
 const Board = () => {
   const { audioConfigState } = useAudioConfig();
   const { setAudioControllerState } = useAudioController();
+  const { scoreState } = useScore();
 
   const rows = () => {
     const final = [];
@@ -93,10 +96,13 @@ const Board = () => {
     }
   };
 
+  useEffect(() => {}, [scoreState.score]);
+
   return (
     <Box>
       <Player points={points} />
       <Restart />
+      <Score visible={scoreState.score} />
       {field.length && (
         <>
           {" "}

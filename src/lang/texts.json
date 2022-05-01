@@ -1,7 +1,12 @@
 {
   "es": {
     "Tooltips": {
-      "Restart": "Recargar [ctr+R][F5]"
+      "Restart": "Recargar [ctr+R][F5]",
+      "Points": "Puntuación [click para ver marcador]"
+    },
+    "Labels": {
+      "SignUp": "Registrarse",
+      "Score": "Marcador"
     }
   }
 }
