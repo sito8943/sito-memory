@@ -5,7 +5,15 @@ import { useState, useEffect } from "react";
 // styles
 import "./style.css";
 
+// context
+import { useLanguage } from "../../context/Language";
+import { useAudioController } from "../../context/AudioController";
+import { useAudioConfig } from "../../context/AudioConfig";
+
 const Board = () => {
+  const { audioConfigState } = useAudioConfig();
+  const { setAudioControllerState } = useAudioController();
+
   const rows = () => {
     const final = [];
     for (let i = 0; i < window.innerHeight / 100; i += 1) final.push(i);
@@ -16,6 +24,10 @@ const Board = () => {
     const final = [];
     for (let i = 0; i < window.innerWidth / 100; i += 1) final.push(i);
     return final;
+  };
+
+  const playSound = (sound) => {
+    if (audioConfigState.sfx) setAudioControllerState({ type: sound });
   };
 
   const [field, setField] = useState([]);
@@ -35,6 +47,7 @@ const Board = () => {
   }, []);
 
   const flip = (e) => {
+    playSound("pop-up");
     const { id } = e.target;
     const parsed = id.substring(4).split(",");
     if (active1.x === -1)
@@ -50,6 +63,9 @@ const Board = () => {
           newField[active1.y][active1.x].active = "reduce";
           newField[Number(parsed[0])][Number(parsed[1])].active = "reduce";
           setField(newField);
+          setTimeout(() => {
+            playSound("good");
+          }, 700);
         }, 100);
 
         setPoints(points + 2);
@@ -60,6 +76,9 @@ const Board = () => {
           newField[active1.y][active1.x].active = "wrong";
           newField[Number(parsed[0])][Number(parsed[1])].active = "wrong";
           setField(newField);
+          setTimeout(() => {
+            playSound("error");
+          }, 700);
         }, 100);
       }
       setTimeout(() => {
@@ -75,7 +94,7 @@ const Board = () => {
         <>
           {" "}
           {rows().map((item, i) => {
-            return ( 
+            return (
               <Box key={`row${i}`} className="row">
                 {columns().map((jtem, j) => {
                   return (
