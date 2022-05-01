@@ -40,12 +40,28 @@
   animation: App-logo-spin infinite 5s linear;
 }
 
+.earned {
+  animation: earned 1 0.5s linear;
+}
+
 .reduce {
   animation: reducing 1 0.5s linear;
 }
 
 .wrong {
   animation: shake 1 0.5s linear;
+}
+
+@keyframes earned {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes loading {

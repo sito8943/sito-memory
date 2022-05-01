@@ -9,13 +9,13 @@ import "./style.css";
 import Player from "../../layouts/Player/Player";
 import Restart from "../../layouts/Restart/Restart";
 import Score from "../../layouts/Score/Score";
+import BuyCard from "../../layouts/BuyCard/BuyCard";
+import About from "../../layouts/About/About";
 
 // context
-import { useLanguage } from "../../context/Language";
 import { useAudioController } from "../../context/AudioController";
 import { useAudioConfig } from "../../context/AudioConfig";
 import { useScore } from "../../context/Score";
-import BuyCard from "../../layouts/BuyCard/BuyCard";
 
 const Board = () => {
   const { audioConfigState } = useAudioConfig();
@@ -68,8 +68,8 @@ const Board = () => {
         ) {
           setTimeout(() => {
             const newField = field;
-            newField[active1.y][active1.x].active = "reduce";
-            newField[Number(parsed[0])][Number(parsed[1])].active = "reduce";
+            newField[active1.y][active1.x].active = "earned";
+            newField[Number(parsed[0])][Number(parsed[1])].active = "earned";
             setField(newField);
             setTimeout(() => {
               playSound("good");
@@ -113,6 +113,7 @@ const Board = () => {
       <Restart />
       <Score visible={scoreState.score} />
       <BuyCard />
+      <About />
       <Box>
         {field.length && (
           <>
@@ -129,20 +130,20 @@ const Board = () => {
                             onClick={flip}
                             className={`card ${
                               (active1.x === j && active1.y === i) ||
-                              (active2.x === j && active2.y === i)
+                              (active2.x === j && active2.y === i) ||
+                              field[i][j].active === "earned"
                                 ? "rotate"
                                 : "return"
                             }`}
                             sx={{
                               transition: "all 400ms ease",
-                              opacity:
-                                `${field[i][j].active}` === "reduce" ? 0 : 1,
                             }}
                             variant="contained"
                             fullWidth
                           >
                             {(active1.x === j && active1.y === i) ||
-                            (active2.x === j && active2.y === i)
+                            (active2.x === j && active2.y === i) ||
+                            field[i][j].active === "earned"
                               ? jtem
                               : ""}
                           </Button>

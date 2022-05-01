@@ -6,8 +6,9 @@ import VpnKeyIcon from "@mui/icons-material/VpnKey";
 
 // context
 import { useLanguage } from "../../context/Language";
+import { forwardRef } from "react";
 
-const SignUp = () => {
+const SignUp = forwardRef((props, ref) => {
   const { languageState } = useLanguage();
 
   return (
@@ -19,6 +20,7 @@ const SignUp = () => {
         background: "#222333",
         overflowY: "auto",
       }}
+      ref={ref}
     >
       <Box
         sx={{
@@ -33,12 +35,17 @@ const SignUp = () => {
           color="info"
           sx={{ marginBottom: "20px", fontSize: "4rem" }}
         />
-        <Button variant="contained" href="www.facebook.com">
+        <Button
+          target="_blank"
+          rel="noopener"
+          variant="contained"
+          href="https://www.facebook.com"
+        >
           {languageState.texts.Buttons.Login}
         </Button>
       </Box>
     </Paper>
   );
-};
+});
 
 export default SignUp;

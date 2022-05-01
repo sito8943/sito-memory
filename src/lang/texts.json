@@ -3,7 +3,8 @@
     "Tooltips": {
       "Restart": "Recargar [ctr+R][F5]",
       "Points": "Puntuación [click para ver marcador]",
-      "BuyCard": "Comprar tarjeta"
+      "BuyCard": "Comprar tarjeta",
+      "About": "Acerca de"
     },
     "Buttons": {
       "Retry": "Reintentar",

@@ -173,7 +173,7 @@ const Score = (props) => {
           </Box>
         </Paper>
       ) : (
-        <SignUp />
+        <SignUp ref={ref} />
       )}
     </Box>
   );
