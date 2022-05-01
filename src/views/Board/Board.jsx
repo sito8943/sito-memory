@@ -50,43 +50,45 @@ const Board = () => {
   }, []);
 
   const flip = (e) => {
-    playSound("pop-up");
     const { id } = e.target;
     const parsed = id.substring(4).split(",");
-    if (active1.x === -1)
-      setActive1({ y: Number(parsed[0]), x: Number(parsed[1]) });
-    else if (active1.x !== -1 && active2.x === -1) {
-      setActive2({ y: Number(parsed[0]), x: Number(parsed[1]) });
-      if (
-        field[active1.y][active1.x].value ===
-        field[Number(parsed[0])][Number(parsed[1])].value
-      ) {
-        setTimeout(() => {
-          const newField = field;
-          newField[active1.y][active1.x].active = "reduce";
-          newField[Number(parsed[0])][Number(parsed[1])].active = "reduce";
-          setField(newField);
+    if (active1.x !== Number(parsed[0]) && active1.y !== Number(parsed[1])) {
+      playSound("pop-up");
+      if (active1.x === -1)
+        setActive1({ y: Number(parsed[0]), x: Number(parsed[1]) });
+      else if (active2.x === -1) {
+        setActive2({ y: Number(parsed[0]), x: Number(parsed[1]) });
+        if (
+          field[active1.y][active1.x].value ===
+          field[Number(parsed[0])][Number(parsed[1])].value
+        ) {
           setTimeout(() => {
-            playSound("good");
-            setPoints(points + 2);
-          }, 700);
-        }, 100);
-      } else {
-        setTimeout(() => {
-          const newField = field;
-          newField[active1.y][active1.x].active = "wrong";
-          newField[Number(parsed[0])][Number(parsed[1])].active = "wrong";
-          setField(newField);
+            const newField = field;
+            newField[active1.y][active1.x].active = "reduce";
+            newField[Number(parsed[0])][Number(parsed[1])].active = "reduce";
+            setField(newField);
+            setTimeout(() => {
+              playSound("good");
+              setPoints(points + 2);
+            }, 700);
+          }, 100);
+        } else {
           setTimeout(() => {
-            playSound("error");
-            setPoints(points - 1);
-          }, 700);
-        }, 100);
+            const newField = field;
+            newField[active1.y][active1.x].active = "wrong";
+            newField[Number(parsed[0])][Number(parsed[1])].active = "wrong";
+            setField(newField);
+            setTimeout(() => {
+              playSound("error");
+              setPoints(points - 1);
+            }, 700);
+          }, 100);
+        }
+        setTimeout(() => {
+          setActive1({ y: -1, x: -1 });
+          setActive2({ y: -1, x: -1 });
+        }, 1000);
       }
-      setTimeout(() => {
-        setActive1({ y: -1, x: -1 });
-        setActive2({ y: -1, x: -1 });
-      }, 1000);
     }
   };
 

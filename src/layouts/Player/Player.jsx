@@ -13,7 +13,7 @@ const Player = (props) => {
   return (
     <Box
       sx={{
-        position: "absolute",
+        position: "fixed",
         zIndex: 99,
         top: "10px",
         right: "10px",
