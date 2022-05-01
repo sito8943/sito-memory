@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 
-// axios
-import axios from "axios";
-
 // prop-types
 import PropTypes from "prop-types";
 
 // @mui components
-import { Box, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Button, Paper, Typography, useTheme } from "@mui/material";
 
 // @mui icons
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
@@ -21,6 +18,9 @@ import Loading from "../../components/Loading/Loading";
 // layouts
 import SignUp from "../SignUp/SignUp";
 
+// services
+import { FetchFromServer } from "../../services/get";
+
 // context
 import { useLanguage } from "../../context/Language";
 import useOnclickOutside from "react-cool-onclickoutside";
@@ -31,22 +31,9 @@ const Score = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
 
-  const [thisUser, setThisUser] = useState("Sito");
-  const [players, setPlayers] = useState([
-    "Sito",
-    "Carlos",
-    "Doom",
-    "Lesly",
-    "Roberto",
-    "Mariano",
-    "Kiko",
-    "Lola",
-    "Jaila",
-    "Abigail",
-    "Eduardo",
-    "Dayana",
-    "Eliza",
-  ]);
+  const [error, setError] = useState(-1);
+  const [thisUser, setThisUser] = useState("");
+  const [players, setPlayers] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
   const [signed, setSigned] = useState(false);
   const ref = useOnclickOutside(() => {
@@ -54,14 +41,26 @@ const Score = (props) => {
   });
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user !== null) setSigned(true);
-    else setSigned(false);
+    const user = localStorage.getItem("memory-user");
+    console.log(user);
+    if (user !== null) {
+      init();
+      setThisUser(user);
+      setSigned(true);
+    } else setSigned(false);
   }, []);
 
   useEffect(() => {
     setOpenMenu(visible);
   }, [visible]);
+
+  const init = async () => {
+    setError(-1);
+    const data = await FetchFromServer("score", { idApp: "memory" });
+    if (data.error) setError(0);
+    else {
+    }
+  };
 
   return (
     <Box
@@ -69,8 +68,8 @@ const Score = (props) => {
         opacity: openMenu ? 1 : 0,
         zIndex: openMenu ? 99 : -1,
         position: "fixed",
-        width: "100%",
-        height: "100%",
+        width: "100vw",
+        height: "100vh",
         backdropFilter: "blur(4px)",
         background: "#2222228c",
         display: "flex",
@@ -109,10 +108,30 @@ const Score = (props) => {
           <Box>
             <Loading
               sx={{
-                opacity: players.length ? 0 : 1,
-                position: players.length ? "absolute" : "initial",
+                opacity: players.length || error !== -1 ? 0 : 1,
+                position:
+                  players.length || error !== -1 ? "absolute" : "initial",
               }}
             />
+            {error !== -1 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  textAlign="center"
+                  sx={{ color: theme.palette.error.light, margin: "10px" }}
+                >
+                  {languageState.texts.Errors[error]}
+                </Typography>
+                <Button variant="contained" onClick={() => init()}>
+                  {languageState.texts.Buttons.Retry}
+                </Button>
+              </Box>
+            )}
             {players.map((item, i) => (
               <Box
                 key={i}
@@ -123,7 +142,7 @@ const Score = (props) => {
                   margin: "10px",
                 }}
               >
-                {item === thisUser && (
+                {item.name === thisUser && (
                   <ChevronRight sx={{ color: theme.palette.success.light }} />
                 )}
                 {i === 0 && (
@@ -139,14 +158,14 @@ const Score = (props) => {
                     color: theme.palette.primary.contrastText,
                   }}
                 >
-                  {i + 1} - {item}
+                  {i + 1} - {item.name} - {item.points}
                 </Typography>
                 {i === 0 && (
                   <EmojiEventsIcon
                     sx={{ color: theme.palette.warning.light }}
                   />
                 )}
-                {item === thisUser && (
+                {item.name === thisUser && (
                   <ChevronLeft sx={{ color: theme.palette.success.light }} />
                 )}
               </Box>

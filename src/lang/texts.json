@@ -2,11 +2,17 @@
   "es": {
     "Tooltips": {
       "Restart": "Recargar [ctr+R][F5]",
-      "Points": "Puntuación [click para ver marcador]"
+      "Points": "Puntuación [click para ver marcador]",
+      "BuyCard": "Comprar tarjeta"
+    },
+    "Buttons": {
+      "Retry": "Reintentar",
+      "Login": "Inicia sesión en Nagüe"
     },
     "Labels": {
       "SignUp": "Registrarse",
       "Score": "Marcador"
-    }
+    },
+    "Errors": ["Ha ocurrido un error al conectar con el servidor"]
   }
 }
