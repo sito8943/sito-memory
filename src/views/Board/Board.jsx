@@ -28,6 +28,7 @@ import { useAudioController } from "../../context/AudioController";
 import { useAudioConfig } from "../../context/AudioConfig";
 import { useLanguage } from "../../context/Language";
 import { useScore } from "../../context/Score";
+import { useGame } from "../../context/Game";
 
 // services
 import { FetchFromServer } from "../../services/get";
@@ -40,13 +41,14 @@ const Board = () => {
   const { audioConfigState } = useAudioConfig();
   const { setAudioControllerState } = useAudioController();
   const { scoreState } = useScore();
+  const { gameState } = useGame();
   const theme = useTheme();
 
   const playSound = (sound) => {
     if (audioConfigState.sfx) setAudioControllerState({ type: sound });
   };
 
-  const [count, setCount] = useState(4);
+  const [count, setCount] = useState(0);
   const [finished, setFinished] = useState(false);
   const [error, setError] = useState(-1);
   const [field, setField] = useState([]);
@@ -62,6 +64,7 @@ const Board = () => {
       const logicMatrix = [];
       const rowMatrix = [];
       const randomPos = [];
+      console.log(count);
       const pow = count * count;
       for (let i = 0; i < pow; i += 1) {
         rowMatrix.push({ value: -1, desc: "description", active: "normal" });
@@ -95,8 +98,26 @@ const Board = () => {
   };
 
   useEffect(() => {
-    init();
+    if (count >= 4) init();
   }, [count]);
+
+  useEffect(() => {
+    const difficulty = localStorage.getItem("memory-difficulty");
+    if (difficulty === null) setCount(4);
+    else {
+      switch (difficulty) {
+        case "easy":
+          setCount(4);
+          break;
+        case "medium":
+          setCount(6);
+          break;
+        default:
+          setCount(8);
+          break;
+      }
+    }
+  }, []);
 
   const flip = (e) => {
     const { id } = e.target;

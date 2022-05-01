@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // @mui components
 import {
@@ -17,8 +17,8 @@ import {
 import PropTypes from "prop-types";
 
 // @mui icons
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import ChevronRight from "@mui/icons-material/ChevronRight";
 
 // context
 import { useLanguage } from "../../context/Language";
@@ -33,6 +33,14 @@ const Difficulty = (props) => {
   const { setAudioControllerState } = useAudioController();
   const { gameState, setGameState } = useGame();
   const theme = useTheme();
+
+  useEffect(() => {
+    const difficulty = localStorage.getItem("memory-difficulty");
+    if (difficulty === null) {
+      setGameState({ type: "difficulty", to: "easy" });
+    } else setGameState({ type: "difficulty", to: difficulty });
+    setOpenMenu(true);
+  }, []);
 
   const playSound = (sound) => {
     if (audioConfigState.sfx) setAudioControllerState({ type: sound });
@@ -50,20 +58,32 @@ const Difficulty = (props) => {
     setGameState({ type: "difficulty", to: e.target.value });
   };
 
+  const toggleMenu = () => {
+    playSound("pop-up");
+    setOpenMenu(!openMenu);
+    const difficulty = localStorage.getItem("memory-difficulty");
+    if (difficulty !== gameState.difficulty) {
+      localStorage.setItem("memory-difficulty", gameState.difficulty);
+      window.location.reload();
+    }
+  };
+
   return (
     <Paper
       sx={{
-        top: 0,
+        left: 0,
         position: "fixed",
         background: "#222",
         padding: "10px",
         transition: "all 400ms ease",
         zIndex: 99,
-        transform: openMenu ? "translateY(0px)" : "translateY(-75px)",
+        transform: openMenu ? "translateX(0px)" : "translateX(-125px)",
         opacity: openMenu ? 1 : 0.2,
         "&:hover": {
           opacity: 1,
         },
+        display: "flex",
+        alignItems: "center",
         paddingBottom: 0,
         ...sx,
       }}
@@ -76,7 +96,6 @@ const Difficulty = (props) => {
         <RadioGroup
           value={gameState.difficulty}
           onChange={handleChange}
-          row
           aria-labelledby="difficulty"
         >
           <FormControlLabel
@@ -100,15 +119,8 @@ const Difficulty = (props) => {
         </RadioGroup>
       </FormControl>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <IconButton
-          onClick={() => {
-            playSound("pop-up");
-            setOpenMenu(!openMenu);
-          }}
-          color="primary"
-          aria-label="delete"
-        >
-          {openMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        <IconButton onClick={toggleMenu} color="primary" aria-label="delete">
+          {openMenu ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
       </Box>
     </Paper>
