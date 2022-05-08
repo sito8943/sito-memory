@@ -47,6 +47,7 @@ const Board = () => {
   const theme = useTheme();
 
   const [showSetting, setShowSetting] = useState(false);
+  const [showScore, setShowScore] = useState(false);
 
   const playSound = (sound) => {
     if (audioConfigState.sfx) setAudioControllerState({ type: sound });
@@ -121,6 +122,12 @@ const Board = () => {
           break;
       }
     }
+    document.body.onkeydown = (e) => {
+      if (e.key === "Escape") {
+        setShowSetting(false);
+        setShowScore(false);
+      }
+    };
   }, []);
 
   const flip = (e) => {
@@ -152,10 +159,17 @@ const Board = () => {
             const newField = field;
             newField[active1.y][active1.x].active = "wrong";
             newField[Number(parsed[0])][Number(parsed[1])].active = "wrong";
+
             setField(newField);
             setTimeout(() => {
               playSound("error");
               setPoints(points - 1);
+              setTimeout(() => {
+                const newField = field;
+                newField[active1.y][active1.x].active = "";
+                newField[Number(parsed[0])][Number(parsed[1])].active = "";
+                setField(newField);
+              }, 500);
             }, 700);
           }, 100);
         }
@@ -203,10 +217,13 @@ const Board = () => {
         }}
         finished={finished}
       />
-      <SettingDialog visible={showSetting} />
-      <Player points={points} />
+      <SettingDialog
+        visible={showSetting}
+        action={() => setShowSetting(false)}
+      />
+      <Player action={() => setShowScore(true)} points={points} />
       <Restart />
-      <Score visible={scoreState.score} />
+      <Score visible={showScore} action={() => setShowScore(false)} />
       <BuyCard />
       <About action={() => setShowSetting(true)} />
       <Box>

@@ -96,18 +96,30 @@ const WinDialog = (props) => {
           </Typography>
 
           {signed ? (
-            <Button variant="contained">
+            <Button
+              onClick={() => window.location.reload()}
+              variant="contained"
+            >
               {languageState.texts.Buttons.Reload}
             </Button>
           ) : (
-            <Button
-              variant="contained"
-              target="_blank"
-              rel="noopener"
-              href="https://www.facebook.com"
-            >
-              {languageState.texts.Buttons.Login}
-            </Button>
+            <>
+              <Button
+                variant="contained"
+                target="_blank"
+                rel="noopener"
+                href="https://www.facebook.com"
+              >
+                {languageState.texts.Buttons.Login}
+              </Button>
+              <Button
+                sx={{ marginTop: "10px" }}
+                onClick={() => window.location.reload()}
+                variant="contained"
+              >
+                {languageState.texts.Buttons.Reload}
+              </Button>
+            </>
           )}
         </Container>
       </Paper>

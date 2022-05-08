@@ -77,88 +77,90 @@ const Score = (props) => {
         transition: "all 400ms ease",
       }}
     >
-      {signed ? (
-        <Paper
-          sx={{
-            padding: "20px",
-            width: "320px",
-            height: "400px",
-            background: "#222333",
-            overflowY: "auto",
-          }}
-          ref={ref}
-        >
-          <Container alignItems="center" justifyContent="center">
-            <Typography
-              variant="h3"
-              sx={{ color: theme.palette.primary.contrastText }}
-            >
-              <SportsScoreIcon sx={{ fontSize: "3rem" }} />
-              {languageState.texts.Labels.Score}
-              <SportsScoreIcon sx={{ fontSize: "3rem" }} />
-            </Typography>
-          </Container>
-          <Box>
-            <Loading
-              sx={{
-                opacity: players.length || error !== -1 ? 0 : 1,
-                position:
-                  players.length || error !== -1 ? "absolute" : "initial",
-              }}
-            />
-            {error !== -1 && (
-              <Container flexDirection="column" alignItems="center">
-                <Typography
-                  textAlign="center"
-                  sx={{ color: theme.palette.error.light, margin: "10px" }}
-                >
-                  {languageState.texts.Errors[error]}
-                </Typography>
-                <Button variant="contained" onClick={() => init()}>
-                  {languageState.texts.Buttons.Retry}
-                </Button>
-              </Container>
-            )}
-            {players.map((item, i) => (
-              <Container
-                key={i}
-                justifyContent="center"
-                alignItems="center"
-                sx={{ margin: "10px" }}
+      <Paper
+        sx={{
+          padding: "20px",
+          width: "320px",
+          height: "400px",
+          background: "#222333",
+          overflowY: "auto",
+        }}
+        ref={ref}
+      >
+        {signed ? (
+          <>
+            <Container alignItems="center" justifyContent="center">
+              <Typography
+                variant="h3"
+                sx={{ color: theme.palette.primary.contrastText }}
               >
-                {item.name === thisUser && (
-                  <ChevronRight sx={{ color: theme.palette.success.light }} />
-                )}
-                {i === 0 && (
-                  <EmojiEventsIcon
-                    sx={{ color: theme.palette.warning.light }}
-                  />
-                )}
-
-                <Typography
-                  variant={i === 0 ? "h4" : "body2"}
-                  sx={{
-                    margin: "0 10px",
-                    color: theme.palette.primary.contrastText,
-                  }}
+                <SportsScoreIcon sx={{ fontSize: "3rem" }} />
+                {languageState.texts.Labels.Score}
+                <SportsScoreIcon sx={{ fontSize: "3rem" }} />
+              </Typography>
+            </Container>
+            <Box>
+              <Loading
+                sx={{
+                  opacity: players.length || error !== -1 ? 0 : 1,
+                  position:
+                    players.length || error !== -1 ? "absolute" : "initial",
+                }}
+              />
+              {error !== -1 && (
+                <Container flexDirection="column" alignItems="center">
+                  <Typography
+                    textAlign="center"
+                    sx={{ color: theme.palette.error.light, margin: "10px" }}
+                  >
+                    {languageState.texts.Errors[error]}
+                  </Typography>
+                  <Button variant="contained" onClick={() => init()}>
+                    {languageState.texts.Buttons.Retry}
+                  </Button>
+                </Container>
+              )}
+              {players.map((item, i) => (
+                <Container
+                  key={i}
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ margin: "10px" }}
                 >
-                  {i + 1} - {item.name} - {item.points}
-                </Typography>
-                {i === 0 && (
-                  <EmojiEventsIcon
-                    sx={{ color: theme.palette.warning.light }}
-                  />
-                )}
-                {item.name === thisUser && (
-                  <ChevronLeft sx={{ color: theme.palette.success.light }} />
-                )}
-              </Container>
-            ))}
-          </Box>
-        </Paper>
-      ) : (
-        <SignUp ref={ref} />
-      )}
+                  {item.name === thisUser && (
+                    <ChevronRight sx={{ color: theme.palette.success.light }} />
+                  )}
+                  {i === 0 && (
+                    <EmojiEventsIcon
+                      sx={{ color: theme.palette.warning.light }}
+                    />
+                  )}
+
+                  <Typography
+                    variant={i === 0 ? "h4" : "body2"}
+                    sx={{
+                      margin: "0 10px",
+                      color: theme.palette.primary.contrastText,
+                    }}
+                  >
+                    {i + 1} - {item.name} - {item.points}
+                  </Typography>
+                  {i === 0 && (
+                    <EmojiEventsIcon
+                      sx={{ color: theme.palette.warning.light }}
+                    />
+                  )}
+                  {item.name === thisUser && (
+                    <ChevronLeft sx={{ color: theme.palette.success.light }} />
+                  )}
+                </Container>
+              ))}
+            </Box>
+          </>
+        ) : (
+          <SignUp ref={ref} sx={{ height: "100%" }} />
+        )}
+      </Paper>
     </Container>
   );
 };

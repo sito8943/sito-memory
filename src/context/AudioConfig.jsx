@@ -4,19 +4,18 @@ const AudioConfig = React.createContext();
 
 const audioConfigReducer = (audioConfigState, action) => {
   switch (action.type) {
-    case "set": 
+    case "set":
       return {
         bfx: action.data.bfx,
         sfx: action.data.sfx,
         bfxVolumen: action.data.bfxVolumen,
         sfxVolumen: action.data.sfxVolumen,
-      }
+      };
     case "toggle-audio":
       return {
-        bfx: action.bfx,
-        sfx: action.sfx,
-        bfxVolumen: audioConfigState.bfxVolumen,
-        sfxVolumen: audioConfigState.sfxVolumen,
+        ...audioConfigState,
+        bfx: !audioConfigState.bfx,
+        sfx: !audioConfigState.sfx,
       };
     case "change-volumen": {
       return {
@@ -24,7 +23,7 @@ const audioConfigReducer = (audioConfigState, action) => {
         sfx: audioConfigState.sfx,
         bfxVolumen: action.bfxVolumen,
         sfxVolumen: action.sfxVolumen,
-      }
+      };
     }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -43,9 +42,7 @@ const AudioConfigProvider = ({ children }) => {
   );
 
   const value = { audioConfigState, setAudioConfigState };
-  return (
-    <AudioConfig.Provider value={value}>{children}</AudioConfig.Provider>
-  );
+  return <AudioConfig.Provider value={value}>{children}</AudioConfig.Provider>;
 };
 
 //hooks

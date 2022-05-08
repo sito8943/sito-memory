@@ -6,21 +6,18 @@ import "tippy.js/dist/tippy.css"; // optional
 import PropTypes from "prop-types";
 
 // @mui components
-import { Button, Typography, useTheme } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 // @mui icons
 import StarsIcon from "@mui/icons-material/Stars";
 
 // context
 import { useLanguage } from "../../context/Language";
-import { useScore } from "../../context/Score";
 
 const Player = (props) => {
-  const { points } = props;
-  const theme = useTheme();
+  const { points, action } = props;
 
   const { languageState } = useLanguage();
-  const { setScoreState } = useScore();
 
   return (
     <Tippy content={languageState.texts.Tooltips.Points}>
@@ -42,7 +39,7 @@ const Player = (props) => {
           },
         }}
         variant="contained"
-        onClick={() => setScoreState({ type: "toggle" })}
+        onClick={action}
       >
         <Typography
           sx={{
@@ -64,6 +61,7 @@ Player.defaultProps = {
 
 Player.propTypes = {
   points: PropTypes.number,
+  action: PropTypes.func.isRequired,
 };
 
 export default Player;

@@ -13,7 +13,7 @@
     },
     "Buttons": {
       "Retry": "Reintentar",
-      "Login": "Inicia sesión en Nagüe",
+      "Login": "Inicia sesión en DesTodo",
       "Reload": "Recargar"
     },
     "Labels": {
@@ -23,7 +23,27 @@
       "CongratulationsSignUp": "Has terminado el nivel, inicia sesión para guardar tu puntuación",
       "SignUp": "Registrarse",
       "Score": "Marcador",
-      "Settings": "Ajustes"
+      "Settings": "Ajustes",
+      "Audio": "Sonido"
+    },
+    "About": {
+      "Version": {
+        "Title": "Versión:",
+        "Name": "0.0.1-pre-alpha",
+        "Link": "https://github.com/SitoNumbis/sito-memory/releases"
+      },
+      "AppName": "Acerca de Espejo",
+      "MainIdea": {
+        "Title": "Idea principal:",
+        "Name": "Carlos Mora Rojas",
+        "Link": "url"
+      },
+      "Developer": {
+        "Title": "Desarrollador:",
+        "Name": "Sito",
+        "Photo": "https://avatars.githubusercontent.com/u/40501794?v=4",
+        "Link": "https://github.com/SitoNumbis"
+      }
     },
     "Errors": ["Ha ocurrido un error al conectar con el servidor"]
   }
