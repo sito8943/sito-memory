@@ -24,6 +24,8 @@ import BuyCard from "../../layouts/BuyCard/BuyCard";
 import About from "../../layouts/About/About";
 import WinDialog from "../../layouts/WinDialog/WinDialog";
 import Difficulty from "../../layouts/Difficulty/Difficulty";
+import SettingDialog from "../../layouts/SettingDialog/SettingDialog";
+import BuyCoins from "../../layouts/BuyCoins/BuyCoins";
 
 // context
 import { useAudioController } from "../../context/AudioController";
@@ -35,11 +37,11 @@ import { useGame } from "../../context/Game";
 // services
 import { FetchFromServer } from "../../services/get";
 
+// services
+import { PurchaseCoins, ValidatePurchase } from "../../services/post";
+
 // test
 import test from "../../test";
-import SettingDialog from "../../layouts/SettingDialog/SettingDialog";
-import { ValidatePurchase } from "../../services/post";
-import BuyCoins from "../../layouts/BuyCoins/BuyCoins";
 
 const Board = () => {
   const { languageState } = useLanguage();
@@ -52,7 +54,7 @@ const Board = () => {
   const [showSetting, setShowSetting] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const [showBuyCoins, setShowBuyCoins] = useState(true);
+  const [showBuyCoins, setShowBuyCoins] = useState(false);
 
   const handleNotificationClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -206,7 +208,13 @@ const Board = () => {
   useEffect(() => {}, [scoreState.score]);
 
   const purchaseCard = async () => {
-    
+    const response = await PurchaseCoins();
+    if (response.error) {
+      setShowNotification(true);
+      setNotificationText(languageState.texts.Notifications.NotConnected);
+      setNotificationType("error");
+    } else {
+    }
   };
 
   const buyCard = async () => {
@@ -219,22 +227,26 @@ const Board = () => {
         setNotificationType("error");
       } else {
         if (active1.x !== -1) {
-          let x = -1;
-          let y = -1;
-          field.forEach((item, i) => {
-            item.filter((jtem, j) => {
-              if (
-                jtem.value === field[active1.y][active1.x].value &&
-                (active1.y !== i || active1.x !== j)
-              ) {
-                y = i;
-                x = j;
-                return jtem;
-              }
-              return null;
+          if (purchase === "no-coins") {
+            setShowBuyCoins(true);
+          } else {
+            let x = -1;
+            let y = -1;
+            field.forEach((item, i) => {
+              item.filter((jtem, j) => {
+                if (
+                  jtem.value === field[active1.y][active1.x].value &&
+                  (active1.y !== i || active1.x !== j)
+                ) {
+                  y = i;
+                  x = j;
+                  return jtem;
+                }
+                return null;
+              });
             });
-          });
-          flip({ target: { id: `cell${y},${x}` } });
+            flip({ target: { id: `cell${y},${x}` } });
+          }
         } else {
           setShowNotification(true);
           setNotificationText(languageState.texts.Notifications.SelectFirst);

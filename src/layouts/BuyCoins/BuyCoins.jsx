@@ -16,14 +16,15 @@ import Container from "../../components/Container/Container";
 
 // context
 import { useLanguage } from "../../context/Language";
-import useOnclickOutside from "react-cool-onclickoutside";
 
+import useOnclickOutside from "react-cool-onclickoutside";
 const BuyCoins = (props) => {
   const { visible, action, onBuy } = props;
 
   const theme = useTheme();
   const { languageState } = useLanguage();
 
+  const [loading, setLoading] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const ref = useOnclickOutside(() => {
     setOpenMenu(false);
@@ -33,6 +34,13 @@ const BuyCoins = (props) => {
   useEffect(() => {
     setOpenMenu(visible);
   }, [visible]);
+
+  const validatePurchase = async () => {
+    setLoading(true);
+    await onBuy();
+    setLoading(false);
+    setOpenMenu(false);
+  };
 
   return (
     <Container
@@ -71,41 +79,55 @@ const BuyCoins = (props) => {
             <CloseIcon sx={{ color: theme.palette.primary.contrastText }} />
           </IconButton>
         </Container>
-        <Container
-          justifyContent="center"
-          alignItems="center"
-          sx={{ width: "100%" }}
-        >
-          <SentimentDissatisfiedIcon
-            sx={{ fontSize: "4rem", color: theme.palette.error.light }}
-          />
-          <Typography variant="h5" sx={{ color: theme.palette.error.light }}>
-            {languageState.texts.Labels.Ups}
-          </Typography>
-        </Container>
-        <Typography
-          variant="h5"
-          sx={{
-            color: theme.palette.primary.contrastText,
-            textAlign: "center",
-            width: "center",
-            margin: "10px 0",
-          }}
-        >
-          {languageState.texts.Labels.BuyCoins}
-        </Typography>
-        <Container
-          justifyContent="center"
-          sx={{ width: "100%", margin: "15px 0 10px 0" }}
-        >
-          <Button
-            onClick={onBuy}
-            variant="contained"
-            sx={{ textTransform: "none" }}
+        {loading ? (
+          <Container
+            justifyContent="center"
+            sx={{ width: "100%", height: "100%" }}
           >
-            {languageState.texts.Buttons.BuyCoins}
-          </Button>
-        </Container>
+            <Loading />
+          </Container>
+        ) : (
+          <>
+            <Container
+              justifyContent="center"
+              alignItems="center"
+              sx={{ width: "100%" }}
+            >
+              <SentimentDissatisfiedIcon
+                sx={{ fontSize: "4rem", color: theme.palette.error.light }}
+              />
+              <Typography
+                variant="h5"
+                sx={{ color: theme.palette.error.light }}
+              >
+                {languageState.texts.Labels.Ups}
+              </Typography>
+            </Container>
+            <Typography
+              variant="h5"
+              sx={{
+                color: theme.palette.primary.contrastText,
+                textAlign: "center",
+                width: "center",
+                margin: "10px 0",
+              }}
+            >
+              {languageState.texts.Labels.BuyCoins}
+            </Typography>
+            <Container
+              justifyContent="center"
+              sx={{ width: "100%", margin: "15px 0 10px 0" }}
+            >
+              <Button
+                onClick={validatePurchase}
+                variant="contained"
+                sx={{ textTransform: "none" }}
+              >
+                {languageState.texts.Buttons.BuyCoins}
+              </Button>
+            </Container>
+          </>
+        )}
       </Paper>
     </Container>
   );
