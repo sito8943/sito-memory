@@ -97,7 +97,7 @@ const Score = (props) => {
         <Container
           sx={{
             marginTop: -10,
-            width: 260,
+            width: 320,
             position: "absolute",
             justifyContent: "end",
           }}
