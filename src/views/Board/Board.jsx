@@ -39,6 +39,7 @@ import { FetchFromServer } from "../../services/get";
 import test from "../../test";
 import SettingDialog from "../../layouts/SettingDialog/SettingDialog";
 import { ValidatePurchase } from "../../services/post";
+import BuyCoins from "../../layouts/BuyCoins/BuyCoins";
 
 const Board = () => {
   const { languageState } = useLanguage();
@@ -51,6 +52,7 @@ const Board = () => {
   const [showSetting, setShowSetting] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [showBuyCoins, setShowBuyCoins] = useState(true);
 
   const handleNotificationClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -203,6 +205,10 @@ const Board = () => {
 
   useEffect(() => {}, [scoreState.score]);
 
+  const purchaseCard = async () => {
+    
+  };
+
   const buyCard = async () => {
     const user = localStorage.getItem("memory-user");
     if (user === null) {
@@ -274,6 +280,11 @@ const Board = () => {
       <SettingDialog
         visible={showSetting}
         action={() => setShowSetting(false)}
+      />
+      <BuyCoins
+        visible={showBuyCoins}
+        action={() => setShowBuyCoins(false)}
+        onBuy={purchaseCard}
       />
       <Player action={() => setShowScore(true)} points={points} />
       <Restart />

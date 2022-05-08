@@ -7,7 +7,10 @@ import config from "../../config";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Box, Button, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Paper, Typography, useTheme } from "@mui/material";
+
+// @mui icons
+import CloseIcon from "@mui/icons-material/Close";
 
 // @mui icons
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
@@ -91,6 +94,18 @@ const Score = (props) => {
         }}
         ref={ref}
       >
+        <Container
+          sx={{
+            marginTop: -10,
+            width: 260,
+            position: "absolute",
+            justifyContent: "end",
+          }}
+        >
+          <IconButton onClick={action}>
+            <CloseIcon sx={{ color: theme.palette.primary.contrastText }} />
+          </IconButton>
+        </Container>
         {signed ? (
           <>
             <Container alignItems="center" justifyContent="center">

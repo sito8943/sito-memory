@@ -9,7 +9,6 @@ import {
   FormLabel,
   Paper,
   IconButton,
-  Box,
   useTheme,
 } from "@mui/material";
 

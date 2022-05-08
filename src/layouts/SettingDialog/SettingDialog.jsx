@@ -7,11 +7,19 @@ import { css } from "@emotion/css";
 import PropTypes from "prop-types";
 
 // @mui components
-import { useTheme, Paper, Typography, Button, Link } from "@mui/material";
+import {
+  useTheme,
+  Paper,
+  Typography,
+  Button,
+  IconButton,
+  Link,
+} from "@mui/material";
 
 // @mui icons
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import MusicOffIcon from "@mui/icons-material/MusicOff";
+import CloseIcon from "@mui/icons-material/Close";
 
 // own components
 import Container from "../../components/Container/Container";
@@ -75,6 +83,18 @@ const SettingDialog = (props) => {
         }}
         ref={ref}
       >
+        <Container
+          sx={{
+            marginTop: -10,
+            width: 260,
+            position: "absolute",
+            justifyContent: "end",
+          }}
+        >
+          <IconButton onClick={action}>
+            <CloseIcon sx={{ color: theme.palette.primary.contrastText }} />
+          </IconButton>
+        </Container>
         <Container justifyContent="center">
           <Typography
             variant="h4"

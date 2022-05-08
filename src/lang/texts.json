@@ -18,9 +18,12 @@
     "Buttons": {
       "Retry": "Reintentar",
       "Login": "Inicia sesión en DesTodo",
-      "Reload": "Recargar"
+      "Reload": "Recargar",
+      "BuyCoins": "Comprar monedas"
     },
     "Labels": {
+      "BuyCoins": "No tienes suficientes monedas",
+      "Ups": "Ups!",
       "Difficulty": "Dificultad",
       "Congratulations": "Felicitaciones",
       "CongratulationsDescription": "Has terminado el nivel. Presiona en el botón para guardar tu puntuación",
