@@ -30,7 +30,7 @@ import { useLanguage } from "../../context/Language";
 import useOnclickOutside from "react-cool-onclickoutside";
 
 const Score = (props) => {
-  const { visible } = props;
+  const { visible, action } = props;
 
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -42,6 +42,7 @@ const Score = (props) => {
   const [signed, setSigned] = useState(false);
   const ref = useOnclickOutside(() => {
     setOpenMenu(false);
+    action();
   });
 
   useEffect(() => {
@@ -174,6 +175,7 @@ Score.defaultProps = {
 
 Score.propTypes = {
   visible: PropTypes.bool,
+  action: PropTypes.func.isRequired,
 };
 
 export default Score;

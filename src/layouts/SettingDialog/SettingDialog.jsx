@@ -39,7 +39,6 @@ const SettingDialog = (props) => {
   });
 
   useEffect(() => {
-    console.log("showSetting", visible);
     setOpenMenu(visible);
   }, [visible]);
 

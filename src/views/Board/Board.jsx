@@ -14,6 +14,7 @@ import { Box, useTheme } from "@mui/material";
 // own components
 import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
+import Notification from "../../components/Notification/Notification";
 
 // layouts
 import Player from "../../layouts/Player/Player";
@@ -37,6 +38,7 @@ import { FetchFromServer } from "../../services/get";
 // test
 import test from "../../test";
 import SettingDialog from "../../layouts/SettingDialog/SettingDialog";
+import { ValidatePurchase } from "../../services/post";
 
 const Board = () => {
   const { languageState } = useLanguage();
@@ -48,6 +50,18 @@ const Board = () => {
 
   const [showSetting, setShowSetting] = useState(false);
   const [showScore, setShowScore] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+
+  const handleNotificationClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setShowNotification(false);
+  };
+
+  const [notificationText, setNotificationText] = useState("");
+  const [notificationType, setNotificationType] = useState("success");
 
   const playSound = (sound) => {
     if (audioConfigState.sfx) setAudioControllerState({ type: sound });
@@ -69,7 +83,6 @@ const Board = () => {
       const logicMatrix = [];
       const rowMatrix = [];
       const randomPos = [];
-      console.log(count);
       const pow = count * count;
       for (let i = 0; i < pow; i += 1) {
         rowMatrix.push({ value: -1, desc: "description", active: "normal" });
@@ -190,8 +203,39 @@ const Board = () => {
 
   useEffect(() => {}, [scoreState.score]);
 
-  const buyCard = () => {
-    
+  const buyCard = async () => {
+    const user = localStorage.getItem("memory-user");
+    if (user === null) {
+      const purchase = await ValidatePurchase(user);
+      if (purchase.error) {
+        setShowNotification(true);
+        setNotificationText(languageState.texts.Notifications.NotConnected);
+        setNotificationType("error");
+      } else {
+        if (active1.x !== -1) {
+          let x = -1;
+          let y = -1;
+          field.forEach((item, i) => {
+            item.filter((jtem, j) => {
+              if (
+                jtem.value === field[active1.y][active1.x].value &&
+                (active1.y !== i || active1.x !== j)
+              ) {
+                y = i;
+                x = j;
+                return jtem;
+              }
+              return null;
+            });
+          });
+          flip({ target: { id: `cell${y},${x}` } });
+        } else {
+          setShowNotification(true);
+          setNotificationText(languageState.texts.Notifications.SelectFirst);
+          setNotificationType("info");
+        }
+      }
+    } else setShowScore(true);
   };
 
   return (
@@ -214,6 +258,12 @@ const Board = () => {
         }}
       />{" "}
       <Difficulty sx={{}} />
+      <Notification
+        onClose={handleNotificationClose}
+        visible={showNotification}
+        text={notificationText}
+        type={notificationType}
+      />
       <WinDialog
         sx={{
           opacity: finished ? 1 : 0,

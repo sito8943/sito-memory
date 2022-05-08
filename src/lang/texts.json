@@ -1,5 +1,9 @@
 {
   "es": {
+    "Notifications": {
+      "SelectFirst": "Debes seleccionar una tarjeta primero",
+      "NotConnected": "No tienes conexión con el servidor"
+    },
     "Tooltips": {
       "Restart": "Recargar [ctr+R][F5]",
       "Points": "Puntuación [click para ver marcador]",

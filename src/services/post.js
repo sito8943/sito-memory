@@ -8,10 +8,12 @@ export const ValidatePurchase = async (userName) => {
       `${config.serverUrl}/api/purchase`,
       {
         user: userName,
-        idApp: config.appName,
       },
       { headers: getAuth }
     );
+    const data = await response.data;
+    if (data.error === undefined) return data;
+    return { error: response.statusText };
   } catch (err) {
     return { error: String(err) };
   }
