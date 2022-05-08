@@ -14,6 +14,7 @@ import ChevronRight from "@mui/icons-material/ChevronRight";
 
 // own components
 import Loading from "../../components/Loading/Loading";
+import Container from "../../components/Container/Container";
 
 // layouts
 import SignUp from "../SignUp/SignUp";
@@ -62,7 +63,9 @@ const Score = (props) => {
   };
 
   return (
-    <Box
+    <Container
+      alignItems="center"
+      justifyContent="center"
       sx={{
         opacity: openMenu ? 1 : 0,
         zIndex: openMenu ? 99 : -1,
@@ -71,9 +74,6 @@ const Score = (props) => {
         height: "100vh",
         backdropFilter: "blur(4px)",
         background: "#2222228c",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         transition: "all 400ms ease",
       }}
     >
@@ -88,13 +88,7 @@ const Score = (props) => {
           }}
           ref={ref}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <Container alignItems="center" justifyContent="center">
             <Typography
               variant="h3"
               sx={{ color: theme.palette.primary.contrastText }}
@@ -103,7 +97,7 @@ const Score = (props) => {
               {languageState.texts.Labels.Score}
               <SportsScoreIcon sx={{ fontSize: "3rem" }} />
             </Typography>
-          </Box>
+          </Container>
           <Box>
             <Loading
               sx={{
@@ -113,13 +107,7 @@ const Score = (props) => {
               }}
             />
             {error !== -1 && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
+              <Container flexDirection="column" alignItems="center">
                 <Typography
                   textAlign="center"
                   sx={{ color: theme.palette.error.light, margin: "10px" }}
@@ -129,17 +117,14 @@ const Score = (props) => {
                 <Button variant="contained" onClick={() => init()}>
                   {languageState.texts.Buttons.Retry}
                 </Button>
-              </Box>
+              </Container>
             )}
             {players.map((item, i) => (
-              <Box
+              <Container
                 key={i}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "10px",
-                }}
+                justifyContent="center"
+                alignItems="center"
+                sx={{ margin: "10px" }}
               >
                 {item.name === thisUser && (
                   <ChevronRight sx={{ color: theme.palette.success.light }} />
@@ -167,14 +152,14 @@ const Score = (props) => {
                 {item.name === thisUser && (
                   <ChevronLeft sx={{ color: theme.palette.success.light }} />
                 )}
-              </Box>
+              </Container>
             ))}
           </Box>
         </Paper>
       ) : (
         <SignUp ref={ref} />
       )}
-    </Box>
+    </Container>
   );
 };
 

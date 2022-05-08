@@ -1,3 +1,6 @@
+// prop types
+import PropTypes from "prop-types";
+
 // tippy
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
@@ -12,6 +15,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useLanguage } from "../../context/Language";
 
 const About = (props) => {
+  const { action } = props;
   const { languageState } = useLanguage();
 
   return (
@@ -32,12 +36,16 @@ const About = (props) => {
           },
         }}
         variant="contained"
-        onClick={() => window.location.reload()}
+        onClick={action}
       >
         <SettingsIcon />
       </Button>
     </Tippy>
   );
+};
+
+About.propTypes = {
+  action: PropTypes.func.isRequired,
 };
 
 export default About;

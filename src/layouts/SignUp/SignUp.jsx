@@ -4,6 +4,9 @@ import { Box, Button, Paper } from "@mui/material";
 // @mui icons
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 
+// own components
+import Container from "../../components/Container/Container";
+
 // context
 import { useLanguage } from "../../context/Language";
 import { forwardRef } from "react";
@@ -22,14 +25,11 @@ const SignUp = forwardRef((props, ref) => {
       }}
       ref={ref}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100%",
-        }}
+      <Container
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ height: "100%" }}
       >
         <VpnKeyIcon
           color="info"
@@ -43,7 +43,7 @@ const SignUp = forwardRef((props, ref) => {
         >
           {languageState.texts.Buttons.Login}
         </Button>
-      </Box>
+      </Container>
     </Paper>
   );
 });

@@ -13,6 +13,7 @@ import { Box, useTheme } from "@mui/material";
 
 // own components
 import Loading from "../../components/Loading/Loading";
+import Container from "../../components/Container/Container";
 
 // layouts
 import Player from "../../layouts/Player/Player";
@@ -35,6 +36,7 @@ import { FetchFromServer } from "../../services/get";
 
 // test
 import test from "../../test";
+import SettingDialog from "../../layouts/SettingDialog/SettingDialog";
 
 const Board = () => {
   const { languageState } = useLanguage();
@@ -43,6 +45,8 @@ const Board = () => {
   const { scoreState } = useScore();
   const { gameState } = useGame();
   const theme = useTheme();
+
+  const [showSetting, setShowSetting] = useState(false);
 
   const playSound = (sound) => {
     if (audioConfigState.sfx) setAudioControllerState({ type: sound });
@@ -173,13 +177,13 @@ const Board = () => {
   useEffect(() => {}, [scoreState.score]);
 
   return (
-    <Box
+    <Container
+      alignItems="center"
+      justifyContent="center"
       sx={{
         width: "100vw",
         height: "100vh",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
       }}
     >
       <Loading
@@ -199,20 +203,15 @@ const Board = () => {
         }}
         finished={finished}
       />
+      <SettingDialog visible={showSetting} />
       <Player points={points} />
       <Restart />
       <Score visible={scoreState.score} />
       <BuyCard />
-      <About />
+      <About action={() => setShowSetting(true)} />
       <Box>
         {error !== -1 && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+          <Container flexDirection="column" alignItems="center">
             <Typography
               textAlign="center"
               sx={{ color: theme.palette.error.light, margin: "10px" }}
@@ -222,7 +221,7 @@ const Board = () => {
             <Button variant="contained" onClick={() => init()}>
               {languageState.texts.Buttons.Retry}
             </Button>
-          </Box>
+          </Container>
         )}
         {field.length ? (
           <>
@@ -287,7 +286,7 @@ const Board = () => {
           <></>
         )}
       </Box>
-    </Box>
+    </Container>
   );
 };
 

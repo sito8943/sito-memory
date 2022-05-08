@@ -16,6 +16,9 @@ import {
 // prop-types
 import PropTypes from "prop-types";
 
+// own components
+import Container from "../../components/Container/Container";
+
 // @mui icons
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
@@ -118,11 +121,11 @@ const Difficulty = (props) => {
           />
         </RadioGroup>
       </FormControl>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Container justifyContent="center">
         <IconButton onClick={toggleMenu} color="primary" aria-label="delete">
           {openMenu ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
-      </Box>
+      </Container>
     </Paper>
   );
 };

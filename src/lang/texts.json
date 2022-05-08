@@ -4,7 +4,7 @@
       "Restart": "Recargar [ctr+R][F5]",
       "Points": "Puntuación [click para ver marcador]",
       "BuyCard": "Comprar tarjeta",
-      "About": "Acerca de"
+      "About": "Ajustes"
     },
     "Difficulty": {
       "Easy": "Fácil",
@@ -22,7 +22,8 @@
       "CongratulationsDescription": "Has terminado el nivel. Presiona en el botón para guardar tu puntuación",
       "CongratulationsSignUp": "Has terminado el nivel, inicia sesión para guardar tu puntuación",
       "SignUp": "Registrarse",
-      "Score": "Marcador"
+      "Score": "Marcador",
+      "Settings": "Ajustes"
     },
     "Errors": ["Ha ocurrido un error al conectar con el servidor"]
   }

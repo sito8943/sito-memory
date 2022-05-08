@@ -9,6 +9,9 @@ import { useTheme, Box, Button, Paper, Typography } from "@mui/material";
 // @mui icons
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
+// own components
+import Container from "../../components/Container/Container";
+
 // context
 import { useLanguage } from "../../context/Language";
 import { useReward } from "react-rewards";
@@ -38,16 +41,15 @@ const WinDialog = (props) => {
   }, [finished]);
 
   return (
-    <Box
+    <Container
+      alignItems="center"
+      justifyContent="center"
       sx={{
         position: "fixed",
         width: "100vw",
         height: "100vh",
         backdropFilter: "blur(4px)",
         background: "#2222228c",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         transition: "all 400ms ease",
         ...sx,
       }}
@@ -64,14 +66,11 @@ const WinDialog = (props) => {
           position: "absolute",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-          }}
+        <Container
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ height: "100%" }}
         >
           <EmojiEventsIcon
             sx={{
@@ -110,7 +109,7 @@ const WinDialog = (props) => {
               {languageState.texts.Buttons.Login}
             </Button>
           )}
-        </Box>
+        </Container>
       </Paper>
       <button
         style={{
@@ -123,7 +122,7 @@ const WinDialog = (props) => {
         Test
       </button>
       <div style={{ zIndex: 99 }} id="rewardId"></div>
-    </Box>
+    </Container>
   );
 };
 
