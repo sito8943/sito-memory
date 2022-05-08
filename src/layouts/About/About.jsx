@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 // tippy
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
 
 // @mui components
 import { Button } from "@mui/material";

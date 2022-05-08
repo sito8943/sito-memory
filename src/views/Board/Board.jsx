@@ -190,6 +190,10 @@ const Board = () => {
 
   useEffect(() => {}, [scoreState.score]);
 
+  const buyCard = () => {
+    
+  };
+
   return (
     <Container
       alignItems="center"
@@ -224,7 +228,7 @@ const Board = () => {
       <Player action={() => setShowScore(true)} points={points} />
       <Restart />
       <Score visible={showScore} action={() => setShowScore(false)} />
-      <BuyCard />
+      <BuyCard action={buyCard} />
       <About action={() => setShowSetting(true)} />
       <Box>
         {error !== -1 && (
@@ -242,7 +246,6 @@ const Board = () => {
         )}
         {field.length ? (
           <>
-            {" "}
             {field.map((item, i) => {
               return (
                 <Box key={`row${i}`} className="row">

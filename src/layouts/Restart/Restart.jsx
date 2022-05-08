@@ -1,6 +1,5 @@
 // tippy
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
 
 // prop-types
 import PropTypes from "prop-types";

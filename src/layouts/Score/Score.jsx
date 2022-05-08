@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+// config
+import config from "../../config";
+
 // prop-types
 import PropTypes from "prop-types";
 
@@ -56,7 +59,7 @@ const Score = (props) => {
 
   const init = async () => {
     setError(-1);
-    const data = await FetchFromServer("score", { idApp: "memory" });
+    const data = await FetchFromServer("score", { idApp: config.appName });
     if (data.error) setError(0);
     else {
     }

@@ -1,6 +1,8 @@
 // tippy
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
+
+// prop types
+import PropTypes from "prop-types";
 
 // @mui components
 import { Button } from "@mui/material";
@@ -11,7 +13,8 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 //context
 import { useLanguage } from "../../context/Language";
 
-const BuyCard = () => {
+const BuyCard = (props) => {
+  const { action } = props;
   const { languageState } = useLanguage();
 
   return (
@@ -32,12 +35,16 @@ const BuyCard = () => {
           },
         }}
         variant="contained"
-        onClick={() => window.location.reload()}
+        onClick={action}
       >
         <AutoFixHighIcon />
       </Button>
     </Tippy>
   );
+};
+
+BuyCard.propTypes = {
+  action: PropTypes.func.isRequired,
 };
 
 export default BuyCard;
