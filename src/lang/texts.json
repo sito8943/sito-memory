@@ -17,7 +17,7 @@
     },
     "Buttons": {
       "Retry": "Reintentar",
-      "Login": "Inicia sesión en DesTodo",
+      "Login": "Inicia sesión en [Plataforma]",
       "Reload": "Recargar",
       "BuyCoins": "Comprar monedas"
     },
