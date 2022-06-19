@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/sito-memory/static/css/main.b684f1f5.css",
+    "main.js": "/sito-memory/static/js/main.d1c84829.js",
+    "static/media/image5.jpg": "/sito-memory/static/media/image5.1c6828424a074f143c2d.jpg",
+    "static/media/image3.jpg": "/sito-memory/static/media/image3.123e41b222b30d0a4c6b.jpg",
+    "static/media/image6.jpg": "/sito-memory/static/media/image6.c821a2730a9c8e3f68eb.jpg",
+    "static/media/image4.jpg": "/sito-memory/static/media/image4.22829a59e2c6afb94b7a.jpg",
+    "static/media/image8.jpg": "/sito-memory/static/media/image8.b75146da5bfdf9d8ae61.jpg",
+    "static/media/image2.jpg": "/sito-memory/static/media/image2.b04026bd1ae5cf0d8a68.jpg",
+    "static/media/image1.jpg": "/sito-memory/static/media/image1.45f6477957606abd2f24.jpg",
+    "static/media/bigClick.mp3": "/sito-memory/static/media/bigClick.20bc5a780df615e67ab6.mp3",
+    "static/media/image7.jpg": "/sito-memory/static/media/image7.e725aef8c892cb21f262.jpg",
+    "static/media/ui1.mp3": "/sito-memory/static/media/ui1.bc5262943689fddf8f04.mp3",
+    "static/media/popUp.mp3": "/sito-memory/static/media/popUp.1df031b3d9f81c5fb068.mp3",
+    "static/media/ui5.mp3": "/sito-memory/static/media/ui5.b95ced5bb99003cb77b2.mp3",
+    "index.html": "/sito-memory/index.html",
+    "main.b684f1f5.css.map": "/sito-memory/static/css/main.b684f1f5.css.map",
+    "main.d1c84829.js.map": "/sito-memory/static/js/main.d1c84829.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b684f1f5.css",
+    "static/js/main.d1c84829.js"
+  ]
+}
