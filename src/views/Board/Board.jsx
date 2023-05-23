@@ -1,5 +1,4 @@
-import { Button, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // tippy
 import Tippy from "@tippyjs/react";
@@ -8,8 +7,11 @@ import "tippy.js/dist/tippy.css"; // optional
 // styles
 import "./style.css";
 
-// @mui components
-import { Box, useTheme } from "@mui/material";
+// @mui/material
+import { useTheme } from "@mui/material/styles";
+import Box from "../../components/MUI/Box";
+import Button from "../../components/MUI/Button";
+import Typography from "../../components/MUI/Typography";
 
 // own components
 import Loading from "../../components/Loading/Loading";
@@ -124,28 +126,29 @@ const Board = () => {
   }, [count]);
 
   useEffect(() => {
-    const difficulty = localStorage.getItem("memory-difficulty");
+    let difficulty = localStorage.getItem("memory-difficulty");
+    if (difficulty === null) difficulty = gameState.difficulty;
     if (difficulty === null) setCount(4);
-    else {
-      switch (difficulty) {
-        case "easy":
-          setCount(4);
-          break;
-        case "medium":
-          setCount(6);
-          break;
-        default:
-          setCount(8);
-          break;
-      }
+
+    switch (difficulty) {
+      case "easy":
+        setCount(4);
+        break;
+      case "medium":
+        setCount(6);
+        break;
+      default:
+        setCount(8);
+        break;
     }
+
     document.body.onkeydown = (e) => {
       if (e.key === "Escape") {
         setShowSetting(false);
         setShowScore(false);
       }
     };
-  }, []);
+  }, [gameState]);
 
   const flip = (e) => {
     const { id } = e.target;

@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Button, IconButton, Paper, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Button from "../../components/MUI/Button";
+import IconButton from "../../components/MUI/IconButton";
+import Typography from "../../components/MUI/Typography";
 
 // @mui icons
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import CloseIcon from "@mui/icons-material/Close";
+import { SentimentDissatisfied, Close } from "@mui/icons-material";
 
 // own components
 import Loading from "../../components/Loading/Loading";
@@ -57,7 +59,7 @@ const BuyCoins = (props) => {
         transition: "all 400ms ease",
       }}
     >
-      <Paper
+      <Container
         sx={{
           padding: "20px",
           width: "250px",
@@ -76,7 +78,7 @@ const BuyCoins = (props) => {
           }}
         >
           <IconButton onClick={action}>
-            <CloseIcon sx={{ color: theme.palette.primary.contrastText }} />
+            <Close sx={{ color: theme.palette.primary.contrastText }} />
           </IconButton>
         </Container>
         {loading ? (
@@ -93,7 +95,7 @@ const BuyCoins = (props) => {
               alignItems="center"
               sx={{ width: "100%" }}
             >
-              <SentimentDissatisfiedIcon
+              <SentimentDissatisfied
                 sx={{ fontSize: "4rem", color: theme.palette.error.light }}
               />
               <Typography
@@ -128,7 +130,7 @@ const BuyCoins = (props) => {
             </Container>
           </>
         )}
-      </Paper>
+      </Container>
     </Container>
   );
 };

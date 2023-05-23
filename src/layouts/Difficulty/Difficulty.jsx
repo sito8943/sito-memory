@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 // @mui components
-import {
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Paper,
-  IconButton,
-  useTheme,
-} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Radio from "../../components/MUI/Radio";
+import IconButton from "../../components/MUI/IconButton";
+import RadioGroup from "../../components/MUI/RadioGroup";
+import FormLabel from "../../components/MUI/FormLabel";
+import FormControl from "../../components/MUI/FormControl";
+import FormControlLabel from "../../components/MUI/FormControlLabel";
 
 // prop-types
 import PropTypes from "prop-types";
@@ -19,15 +17,13 @@ import PropTypes from "prop-types";
 import Container from "../../components/Container/Container";
 
 // @mui icons
-import ChevronLeft from "@mui/icons-material/ChevronLeft";
-import ChevronRight from "@mui/icons-material/ChevronRight";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material/";
 
 // context
 import { useLanguage } from "../../context/Language";
 import { useGame } from "../../context/Game";
 import { useAudioController } from "../../context/AudioController";
 import { useAudioConfig } from "../../context/AudioConfig";
-import useOnclickOutside from "react-cool-onclickoutside";
 
 const Difficulty = (props) => {
   const { languageState } = useLanguage();
@@ -38,6 +34,7 @@ const Difficulty = (props) => {
 
   useEffect(() => {
     const difficulty = localStorage.getItem("memory-difficulty");
+    console.log(difficulty);
     if (difficulty === null) {
       setGameState({ type: "difficulty", to: "easy" });
     } else setGameState({ type: "difficulty", to: difficulty });
@@ -71,7 +68,7 @@ const Difficulty = (props) => {
   };
 
   return (
-    <Paper
+    <Container
       sx={{
         left: 0,
         position: "fixed",
@@ -125,7 +122,7 @@ const Difficulty = (props) => {
           {openMenu ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
       </Container>
-    </Paper>
+    </Container>
   );
 };
 

@@ -1,11 +1,13 @@
+import React, { memo, useMemo } from "react";
+
 // prop types
 import PropTypes from "prop-types";
 
 // tippy
 import Tippy from "@tippyjs/react";
 
-// @mui components
-import { Button } from "@mui/material";
+// @mui
+import Button from "../../components/MUI/Button";
 
 // @mui icons
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -17,8 +19,12 @@ const About = (props) => {
   const { action } = props;
   const { languageState } = useLanguage();
 
+  const about = useMemo(() => {
+    return languageState.texts.Tooltips.About;
+  }, [languageState]);
+
   return (
-    <Tippy content={languageState.texts.Tooltips.About}>
+    <Tippy content={about}>
       <Button
         sx={{
           position: "fixed",
@@ -47,4 +53,10 @@ About.propTypes = {
   action: PropTypes.func.isRequired,
 };
 
-export default About;
+const AboutMemo = memo((props) => <About {...props} />, arePropsEqual);
+
+function arePropsEqual(oldProps, newProps) {
+  return oldProps.action === newProps.action;
+}
+
+export default AboutMemo;

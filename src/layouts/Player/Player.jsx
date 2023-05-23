@@ -1,3 +1,5 @@
+import React from "react";
+
 // tippy
 import Tippy from "@tippyjs/react";
 
@@ -5,10 +7,11 @@ import Tippy from "@tippyjs/react";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Button, Typography } from "@mui/material";
+import Button from "../../components/MUI/Button";
+import Typography from "../../components/MUI/Typography";
 
 // @mui icons
-import StarsIcon from "@mui/icons-material/Stars";
+import { Stars } from "@mui/icons-material/";
 
 // context
 import { useLanguage } from "../../context/Language";
@@ -48,7 +51,7 @@ const Player = (props) => {
         >
           {points}
         </Typography>
-        <StarsIcon />
+        <Stars />
       </Button>
     </Tippy>
   );

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 // config
 import config from "../../config";
@@ -7,16 +8,21 @@ import config from "../../config";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Box, Button, IconButton, Paper, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Box from "../../components/MUI/Box";
+import Paper from "../../components/MUI/Paper";
+import Button from "../../components/MUI/Button";
+import IconButton from "../../components/MUI/IconButton";
+import Typography from "../../components/MUI/Typography";
 
 // @mui icons
-import CloseIcon from "@mui/icons-material/Close";
-
-// @mui icons
-import SportsScoreIcon from "@mui/icons-material/SportsScore";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import ChevronLeft from "@mui/icons-material/ChevronLeft";
-import ChevronRight from "@mui/icons-material/ChevronRight";
+import {
+  Close,
+  SportsScore,
+  EmojiEvents,
+  ChevronLeft,
+  ChevronRight,
+} from "@mui/icons-material/";
 
 // own components
 import Loading from "../../components/Loading/Loading";
@@ -30,7 +36,6 @@ import { FetchFromServer } from "../../services/get";
 
 // context
 import { useLanguage } from "../../context/Language";
-import useOnclickOutside from "react-cool-onclickoutside";
 
 const Score = (props) => {
   const { visible, action } = props;
@@ -43,6 +48,7 @@ const Score = (props) => {
   const [players, setPlayers] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
   const [signed, setSigned] = useState(false);
+
   const ref = useOnclickOutside(() => {
     setOpenMenu(false);
     action();
@@ -84,7 +90,7 @@ const Score = (props) => {
         transition: "all 400ms ease",
       }}
     >
-      <Paper
+      <Container
         sx={{
           padding: "20px",
           width: "320px",
@@ -103,7 +109,7 @@ const Score = (props) => {
           }}
         >
           <IconButton onClick={action}>
-            <CloseIcon sx={{ color: theme.palette.primary.contrastText }} />
+            <Close sx={{ color: theme.palette.primary.contrastText }} />
           </IconButton>
         </Container>
         {signed ? (
@@ -113,9 +119,9 @@ const Score = (props) => {
                 variant="h3"
                 sx={{ color: theme.palette.primary.contrastText }}
               >
-                <SportsScoreIcon sx={{ fontSize: "3rem" }} />
+                <SportsScore sx={{ fontSize: "3rem" }} />
                 {languageState.texts.Labels.Score}
-                <SportsScoreIcon sx={{ fontSize: "3rem" }} />
+                <SportsScore sx={{ fontSize: "3rem" }} />
               </Typography>
             </Container>
             <Box>
@@ -150,9 +156,7 @@ const Score = (props) => {
                     <ChevronRight sx={{ color: theme.palette.success.light }} />
                   )}
                   {i === 0 && (
-                    <EmojiEventsIcon
-                      sx={{ color: theme.palette.warning.light }}
-                    />
+                    <EmojiEvents sx={{ color: theme.palette.warning.light }} />
                   )}
 
                   <Typography
@@ -165,9 +169,7 @@ const Score = (props) => {
                     {i + 1} - {item.name} - {item.points}
                   </Typography>
                   {i === 0 && (
-                    <EmojiEventsIcon
-                      sx={{ color: theme.palette.warning.light }}
-                    />
+                    <EmojiEvents sx={{ color: theme.palette.warning.light }} />
                   )}
                   {item.name === thisUser && (
                     <ChevronLeft sx={{ color: theme.palette.success.light }} />
@@ -177,9 +179,9 @@ const Score = (props) => {
             </Box>
           </>
         ) : (
-          <SignUp ref={ref} sx={{ height: "100%" }} />
+          <SignUp sx={{ height: "100%" }} />
         )}
-      </Paper>
+      </Container>
     </Container>
   );
 };

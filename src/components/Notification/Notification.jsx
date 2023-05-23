@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 // prop types
 import PropTypes from "prop-types";
 
-// @mui components
-import { Snackbar, Alert } from "@mui/material/";
+// @mui
+import Alert from "../MUI/Alert";
+import Snackbar from "../MUI/Snackbar";
 
 const Notification = (props) => {
   const { visible, text, type, onClose } = props;
@@ -36,4 +37,18 @@ Notification.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default Notification;
+const NotificationMemo = memo(
+  (props) => <Notification {...props} />,
+  arePropsEqual
+);
+
+function arePropsEqual(oldProps, newProps) {
+  return (
+    oldProps.visible === newProps.visible &&
+    oldProps.text === newProps.text &&
+    oldProps.type === newProps.type &&
+    oldProps.onClose === newProps.onClose
+  );
+}
+
+export default NotificationMemo;

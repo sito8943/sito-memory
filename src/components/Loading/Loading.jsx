@@ -1,8 +1,8 @@
 // prop-types
 import PropTypes from "prop-types";
 
-// @mui components
-import { Box } from "@mui/material";
+// @mui
+import Box from "../MUI/Box";
 
 // @mui icons
 import LoopIcon from "@mui/icons-material/Loop";

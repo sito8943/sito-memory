@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 // css
 import { css } from "@emotion/css";
@@ -7,19 +8,15 @@ import { css } from "@emotion/css";
 import PropTypes from "prop-types";
 
 // @mui components
-import {
-  useTheme,
-  Paper,
-  Typography,
-  Button,
-  IconButton,
-  Link,
-} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Link from "../../components/MUI/Link";
+import Paper from "../../components/MUI/Paper";
+import Button from "../../components/MUI/Button";
+import IconButton from "../../components/MUI/IconButton";
+import Typography from "../../components/MUI/Typography";
 
 // @mui icons
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
-import MusicOffIcon from "@mui/icons-material/MusicOff";
-import CloseIcon from "@mui/icons-material/Close";
+import { MusicNote, MusicOff, Close } from "@mui/icons-material/";
 
 // own components
 import Container from "../../components/Container/Container";
@@ -30,7 +27,6 @@ import SignUp from "../SignUp/SignUp";
 // contexts
 import { useLanguage } from "../../context/Language";
 import { useAudioConfig } from "../../context/AudioConfig";
-import useOnclickOutside from "react-cool-onclickoutside";
 
 const SettingDialog = (props) => {
   const { languageState } = useLanguage();
@@ -73,7 +69,7 @@ const SettingDialog = (props) => {
         transition: "all 400ms ease",
       }}
     >
-      <Paper
+      <Container
         sx={{
           padding: "20px",
           width: "320px",
@@ -92,7 +88,7 @@ const SettingDialog = (props) => {
           }}
         >
           <IconButton onClick={action}>
-            <CloseIcon sx={{ color: theme.palette.primary.contrastText }} />
+            <Close sx={{ color: theme.palette.primary.contrastText }} />
           </IconButton>
         </Container>
         <Container justifyContent="center">
@@ -123,7 +119,7 @@ const SettingDialog = (props) => {
             sx={{ borderRadius: "100%", padding: "5px", minWidth: 0 }}
             onClick={() => setAudioConfigState({ type: "toggle-audio" })}
           >
-            {audioConfigState.sfx ? <MusicNoteIcon /> : <MusicOffIcon />}
+            {audioConfigState.sfx ? <MusicNote /> : <MusicOff />}
           </Button>
         </Container>
         <Container flexDirection="column" sx={{ margin: "10px 0" }}>
@@ -199,7 +195,7 @@ const SettingDialog = (props) => {
           </Container>
         </Container>
         <SignUp justIcon />
-      </Paper>
+      </Container>
     </Container>
   );
 };

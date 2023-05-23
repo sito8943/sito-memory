@@ -1,3 +1,5 @@
+import React from "react";
+
 // tippy
 import Tippy from "@tippyjs/react";
 
@@ -5,10 +7,10 @@ import Tippy from "@tippyjs/react";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Button } from "@mui/material";
+import Button from "../../components/MUI/Button";
 
 // @mui icons
-import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import { RotateLeft } from "@mui/icons-material/";
 
 //context
 import { useLanguage } from "../../context/Language";
@@ -36,7 +38,7 @@ const Restart = (props) => {
         variant="contained"
         onClick={() => window.location.reload()}
       >
-        <RotateLeftIcon />
+        <RotateLeft />
       </Button>
     </Tippy>
   );

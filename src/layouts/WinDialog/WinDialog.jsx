@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { memo, useMemo, useEffect, useState } from "react";
+import { useReward } from "react-rewards";
 
 // prop-types
 import PropTypes from "prop-types";
 
-// @mui components
-import { useTheme, Box, Button, Paper, Typography } from "@mui/material";
+// @mui
+import { useTheme } from "@mui/material/styles";
+import Typography from "../../components/MUI/Typography";
+import Button from "../../components/MUI/Button";
+import Paper from "../../components/MUI/Paper";
 
 // @mui icons
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -14,12 +18,18 @@ import Container from "../../components/Container/Container";
 
 // context
 import { useLanguage } from "../../context/Language";
-import { useReward } from "react-rewards";
 
 const WinDialog = (props) => {
   const { languageState } = useLanguage();
   const { reward, isAnimating } = useReward("rewardId", "confetti");
   const theme = useTheme();
+
+  const { Labels, Buttons } = useMemo(() => {
+    return {
+      Labels: languageState.texts.Labels,
+      Buttons: languageState.texts.Buttons,
+    };
+  }, [languageState]);
 
   const { sx, finished } = props;
 
@@ -36,7 +46,7 @@ const WinDialog = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      document.getElementById("click").click();
+      document.getElementById("click")?.click();
     }, 400);
   }, [finished]);
 
@@ -80,7 +90,7 @@ const WinDialog = (props) => {
             }}
           />
           <Typography variant="h3" color="primary">
-            {languageState.texts.Labels.Congratulations}
+            {Labels.Congratulations}
           </Typography>
           <Typography
             sx={{
@@ -91,8 +101,8 @@ const WinDialog = (props) => {
             variant="body1"
           >
             {signed
-              ? languageState.texts.Labels.CongratulationsDescription
-              : languageState.texts.Labels.CongratulationsSignUp}
+              ? Labels.CongratulationsDescription
+              : Labels.CongratulationsSignUp}
           </Typography>
 
           {signed ? (
@@ -100,7 +110,7 @@ const WinDialog = (props) => {
               onClick={() => window.location.reload()}
               variant="contained"
             >
-              {languageState.texts.Buttons.Reload}
+              {Buttons.Reload}
             </Button>
           ) : (
             <>
@@ -110,14 +120,14 @@ const WinDialog = (props) => {
                 rel="noopener"
                 href="https://www.facebook.com"
               >
-                {languageState.texts.Buttons.Login}
+                {Buttons.Login}
               </Button>
               <Button
                 sx={{ marginTop: "10px" }}
                 onClick={() => window.location.reload()}
                 variant="contained"
               >
-                {languageState.texts.Buttons.Reload}
+                {Buttons.Reload}
               </Button>
             </>
           )}
@@ -147,4 +157,10 @@ WinDialog.propTypes = {
   finished: PropTypes.bool.isRequired,
 };
 
-export default WinDialog;
+const WinDialogMemo = memo((props) => <WinDialog {...props} />, arePropsEqual);
+
+function arePropsEqual(oldProps, newProps) {
+  return oldProps.sx === newProps.sx && oldProps.finished === newProps.finished;
+}
+
+export default WinDialogMemo;

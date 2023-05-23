@@ -1,8 +1,14 @@
+import React, { memo, useMemo } from "react";
+
 // prop types
 import PropTypes from "prop-types";
 
-// @mui components
-import { IconButton, Button, Tooltip } from "@mui/material";
+// tippy
+import Tippy from "@tippyjs/react";
+
+// @mui
+import Button from "../../components/MUI/Button";
+import IconButton from "../../components/MUI/IconButton";
 
 // @mui icons
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
@@ -10,17 +16,17 @@ import VpnKeyIcon from "@mui/icons-material/VpnKey";
 // own components
 import Container from "../../components/Container/Container";
 
-// tippy
-import Tippy from "@tippyjs/react";
-
 // context
 import { useLanguage } from "../../context/Language";
-import { forwardRef } from "react";
 
-const SignUp = forwardRef((props, ref) => {
+const SignUp = (props) => {
   const { languageState } = useLanguage();
 
   const { sx, justIcon } = props;
+
+  const { Buttons } = useMemo(() => {
+    return { Buttons: languageState.texts.Buttons };
+  }, [languageState]);
 
   return (
     <Container
@@ -30,7 +36,7 @@ const SignUp = forwardRef((props, ref) => {
       sx={sx}
     >
       {justIcon ? (
-        <Tippy content={languageState.texts.Buttons.Login}>
+        <Tippy content={Buttons.Login}>
           <IconButton color="primary">
             <VpnKeyIcon color="info" sx={{ fontSize: "4rem" }} />
           </IconButton>
@@ -49,13 +55,13 @@ const SignUp = forwardRef((props, ref) => {
             variant="contained"
             href="https://www.facebook.com"
           >
-            {languageState.texts.Buttons.Login}
+            {Buttons.Login}
           </Button>
         </>
       )}
     </Container>
   );
-});
+};
 
 SignUp.defaultProps = {
   sx: {},
@@ -67,4 +73,10 @@ SignUp.propTypes = {
   justIcon: PropTypes.bool,
 };
 
-export default SignUp;
+const SignUpMemo = memo((props) => <SignUp {...props} />, arePropsEqual);
+
+function arePropsEqual(oldProps, newProps) {
+  return oldProps.sx === newProps.sx && oldProps.justIcon === newProps.justIcon;
+}
+
+export default SignUpMemo;

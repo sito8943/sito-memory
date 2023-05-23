@@ -4,8 +4,8 @@ import Tippy from "@tippyjs/react";
 // prop types
 import PropTypes from "prop-types";
 
-// @mui components
-import { Button } from "@mui/material";
+// @mui
+import Button from "../../components/MUI/Button";
 
 // @mui icons
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
