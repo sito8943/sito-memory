@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunksito_memory=self.webpackChunksito_memory||[]).push([[313],{3313:function(o,e,t){t.r(e);var f=t(2791),n=t(1311),r=t(7028),u=t(184);e.default=function(){var o=(0,n.r)().audioConfigState,e=(0,r.P)().audioControllerState;return(0,f.useEffect)((function(){o.sfx}),[]),(0,f.useEffect)((function(){e.good}),[e.good]),(0,f.useEffect)((function(){e.popUp}),[e.popUp]),(0,f.useEffect)((function(){e.error}),[e.error]),(0,f.useEffect)((function(){e.normalClick}),[e.normalClick]),(0,u.jsx)(u.Fragment,{})}}}]);
+//# sourceMappingURL=313.26d84f0d.chunk.js.map
