@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, lazy } from "react";
 
 // tippy
 import Tippy from "@tippyjs/react";
@@ -12,22 +12,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "../../components/MUI/Box";
 import Button from "../../components/MUI/Button";
 import Typography from "../../components/MUI/Typography";
-
-// own components
-import Loading from "../../components/Loading/Loading";
-import Container from "../../components/Container/Container";
-import Notification from "../../components/Notification/Notification";
-
-// layouts
-import Player from "../../layouts/Player/Player";
-import Restart from "../../layouts/Restart/Restart";
-import Score from "../../layouts/Score/Score";
-import BuyCard from "../../layouts/BuyCard/BuyCard";
-import About from "../../layouts/About/About";
-import WinDialog from "../../layouts/WinDialog/WinDialog";
-import Difficulty from "../../layouts/Difficulty/Difficulty";
-import SettingDialog from "../../layouts/SettingDialog/SettingDialog";
-import BuyCoins from "../../layouts/BuyCoins/BuyCoins";
 
 // context
 import { useAudioController } from "../../context/AudioController";
@@ -44,6 +28,26 @@ import { PurchaseCoins, ValidatePurchase } from "../../services/post";
 
 // test
 import test from "../../test";
+
+// own components
+import Loading from "../../components/Loading/Loading";
+const Container = lazy(() => import("../../components/Container/Container"));
+const Notification = lazy(() =>
+  import("../../components/Notification/Notification")
+);
+
+// layouts
+const Player = lazy(() => import("../../layouts/Player/Player"));
+const Restart = lazy(() => import("../../layouts/Restart/Restart"));
+const Score = lazy(() => import("../../layouts/Score/Score"));
+const BuyCard = lazy(() => import("../../layouts/BuyCard/BuyCard"));
+const About = lazy(() => import("../../layouts/About/About"));
+const WinDialog = lazy(() => import("../../layouts/WinDialog/WinDialog"));
+const Difficulty = lazy(() => import("../../layouts/Difficulty/Difficulty"));
+const SettingDialog = lazy(() =>
+  import("../../layouts/SettingDialog/SettingDialog")
+);
+const BuyCoins = lazy(() => import("../../layouts/BuyCoins/BuyCoins"));
 
 const Board = () => {
   const { languageState } = useLanguage();
@@ -260,138 +264,152 @@ const Board = () => {
   };
 
   return (
-    <Container
-      sx={{
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+    <Suspense
+      fallback={
+        <Loading
+          sx={{
+            width: "100vw",
+            height: "100vh",
+            opacity: field.length || error !== -1 ? 0 : 1,
+            zIndex: field.length || error !== -1 ? -1 : 99,
+            position: "fixed",
+          }}
+        />
+      }
     >
-      <Loading
+      <Container
         sx={{
           width: "100vw",
           height: "100vh",
-          opacity: field.length || error !== -1 ? 0 : 1,
-          zIndex: field.length || error !== -1 ? -1 : 99,
-          position: "fixed",
-        }}
-      />{" "}
-      <Difficulty sx={{}} />
-      <Notification
-        onClose={handleNotificationClose}
-        visible={showNotification}
-        text={notificationText}
-        type={notificationType}
-      />
-      <WinDialog
-        sx={{
-          opacity: finished ? 1 : 0,
-          zIndex: finished ? 99 : -1,
-        }}
-        finished={finished}
-      />
-      <SettingDialog
-        visible={showSetting}
-        action={() => setShowSetting(false)}
-      />
-      <BuyCoins
-        visible={showBuyCoins}
-        action={() => setShowBuyCoins(false)}
-        onBuy={purchaseCard}
-      />
-      <Player action={() => setShowScore(true)} points={points} />
-      <Restart />
-      <Score visible={showScore} action={() => setShowScore(false)} />
-      <BuyCard action={buyCard} />
-      <About action={() => setShowSetting(true)} />
-      <Box
-        sx={{
           display: "flex",
-          height: "100vh",
-          overflow: "auto",
-          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        {error !== -1 && (
-          <Container flexDirection="column" alignItems="center">
-            <Typography
-              textAlign="center"
-              sx={{ color: theme.palette.error.light, margin: "10px" }}
-            >
-              {languageState.texts.Errors[error]}
-            </Typography>
-            <Button variant="contained" onClick={() => init()}>
-              {languageState.texts.Buttons.Retry}
-            </Button>
-          </Container>
-        )}
-        {field.length ? (
-          <>
-            {field.map((item, i) => {
-              return (
-                <Box key={`row${i}`} className="row">
-                  {field[i].map((jtem, j) => {
-                    return (
-                      <Box key={`cell${i},${j}`} className="cell">
-                        <div className={`${jtem.active}`}>
-                          <Button
-                            id={`cell${i},${j}`}
-                            onClick={flip}
-                            className={`card ${
-                              (active1.x === j && active1.y === i) ||
+        <Loading
+          sx={{
+            width: "100vw",
+            height: "100vh",
+            opacity: field.length || error !== -1 ? 0 : 1,
+            zIndex: field.length || error !== -1 ? -1 : 99,
+            position: "fixed",
+          }}
+        />{" "}
+        <Difficulty sx={{}} />
+        <Notification
+          onClose={handleNotificationClose}
+          visible={showNotification}
+          text={notificationText}
+          type={notificationType}
+        />
+        <WinDialog
+          sx={{
+            opacity: finished ? 1 : 0,
+            zIndex: finished ? 99 : -1,
+          }}
+          finished={finished}
+        />
+        <SettingDialog
+          visible={showSetting}
+          action={() => setShowSetting(false)}
+        />
+        <BuyCoins
+          visible={showBuyCoins}
+          action={() => setShowBuyCoins(false)}
+          onBuy={purchaseCard}
+        />
+        <Player action={() => setShowScore(true)} points={points} />
+        <Restart />
+        <Score visible={showScore} action={() => setShowScore(false)} />
+        <BuyCard action={buyCard} />
+        <About action={() => setShowSetting(true)} />
+        <Box
+          sx={{
+            display: "flex",
+            height: "100vh",
+            overflow: "auto",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {error !== -1 && (
+            <Container flexDirection="column" alignItems="center">
+              <Typography
+                textAlign="center"
+                sx={{ color: theme.palette.error.light, margin: "10px" }}
+              >
+                {languageState.texts.Errors[error]}
+              </Typography>
+              <Button variant="contained" onClick={() => init()}>
+                {languageState.texts.Buttons.Retry}
+              </Button>
+            </Container>
+          )}
+          {field.length ? (
+            <>
+              {field.map((item, i) => {
+                return (
+                  <Box key={`row${i}`} className="row">
+                    {field[i].map((jtem, j) => {
+                      return (
+                        <Box key={`cell${i},${j}`} className="cell">
+                          <div className={`${jtem.active}`}>
+                            <Button
+                              id={`cell${i},${j}`}
+                              onClick={flip}
+                              className={`card ${
+                                (active1.x === j && active1.y === i) ||
+                                (active2.x === j && active2.y === i) ||
+                                jtem.active === "earned"
+                                  ? "rotate"
+                                  : "return"
+                              }`}
+                              sx={{
+                                padding: 0,
+                                transition: "all 400ms ease",
+                              }}
+                              variant="contained"
+                              fullWidth
+                            >
+                              {(active1.x === j && active1.y === i) ||
                               (active2.x === j && active2.y === i) ||
-                              jtem.active === "earned"
-                                ? "rotate"
-                                : "return"
-                            }`}
-                            sx={{
-                              padding: 0,
-                              transition: "all 400ms ease",
-                            }}
-                            variant="contained"
-                            fullWidth
-                          >
-                            {(active1.x === j && active1.y === i) ||
-                            (active2.x === j && active2.y === i) ||
-                            jtem.active === "earned" ? (
-                              <Box>
-                                {jtem.active === "earned" ? (
-                                  <Tippy content={jtem.desc}>
+                              jtem.active === "earned" ? (
+                                <Box>
+                                  {jtem.active === "earned" ? (
+                                    <Tippy content={jtem.desc}>
+                                      <img
+                                        src={jtem.value}
+                                        alt="card"
+                                        className="image-card"
+                                      />
+                                    </Tippy>
+                                  ) : (
                                     <img
                                       src={jtem.value}
                                       alt="card"
                                       className="image-card"
                                     />
-                                  </Tippy>
-                                ) : (
-                                  <img
-                                    src={jtem.value}
-                                    alt="card"
-                                    className="image-card"
-                                  />
-                                )}
-                              </Box>
-                            ) : (
-                              ""
-                            )}
-                          </Button>
-                        </div>
-                      </Box>
-                    );
-                  })}
-                </Box>
-              );
-            })}
-          </>
-        ) : (
-          <></>
-        )}
-      </Box>
-    </Container>
+                                  )}
+                                </Box>
+                              ) : (
+                                ""
+                              )}
+                            </Button>
+                          </div>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                );
+              })}
+            </>
+          ) : (
+            <></>
+          )}
+        </Box>
+      </Container>
+    </Suspense>
   );
 };
 
