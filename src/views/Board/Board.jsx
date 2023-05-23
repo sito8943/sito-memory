@@ -261,12 +261,12 @@ const Board = () => {
 
   return (
     <Container
-      alignItems="center"
-      justifyContent="center"
       sx={{
         width: "100vw",
         height: "100vh",
         display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Loading
@@ -306,7 +306,16 @@ const Board = () => {
       <Score visible={showScore} action={() => setShowScore(false)} />
       <BuyCard action={buyCard} />
       <About action={() => setShowSetting(true)} />
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          height: "100vh",
+          overflow: "auto",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {error !== -1 && (
           <Container flexDirection="column" alignItems="center">
             <Typography
